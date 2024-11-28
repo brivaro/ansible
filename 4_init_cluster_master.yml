@@ -1,0 +1,12 @@
+- name: Inicializar el clúster Kubernetes
+  hosts: master
+  become: yes
+  tasks:
+    - name: Inicializar el clúster con kubeadm
+      shell: |
+        kubeadm init --pod-network-cidr=172.16.0.0/12 | tee /root/kubeinit-output.txt
+      register: kubeadm_output
+
+    - name: Extraer comando kubeadm join
+      shell: |
+        grep 'kubeadm join' /root/kubeinit-output.txt > /root/join-command.sh

@@ -1,0 +1,17 @@
+- name: Configurar red con Calico
+  hosts: master
+  become: yes
+  tasks:
+    - name: Descargar el manifiesto de Calico
+      get_url:
+        url: https://docs.projectcalico.org/manifests/calico.yaml
+        dest: /root/calico.yaml
+
+    - name: Modificar la configuración de red en Calico
+      lineinfile:
+        path: /root/calico.yaml
+        regexp: '192.168.0.0/16'
+        line: '172.16.0.0/12'
+
+    - name: Aplicar manifiesto de Calico
+      command: kubectl apply -f /root/calico.yaml

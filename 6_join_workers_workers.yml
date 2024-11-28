@@ -1,0 +1,7 @@
+- name: Unir nodos workers al clúster Kubernetes
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Ejecutar el comando de unión
+      shell: |
+        $(cat /root/join-command.sh)

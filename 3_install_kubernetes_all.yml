@@ -1,0 +1,29 @@
+- name: Instalar herramientas de Kubernetes
+  hosts: k8s
+  become: yes
+  tasks:
+    - name: Añadir repositorio de Kubernetes
+      copy:
+        dest: /etc/yum.repos.d/kubernetes.repo
+        content: |
+          [kubernetes]
+          name=Kubernetes
+          baseurl=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+
+    - name: Instalar kubeadm, kubelet y kubectl
+      yum:
+        name:
+          - kubeadm
+          - kubelet
+          - kubectl
+        state: present
+        disable_excludes: kubernetes
+
+    - name: Habilitar kubelet
+      service:
+        name: kubelet
+        state: started
+        enabled: true
