@@ -1,0 +1,126 @@
+---
+- name: Configuración inicial de nodos Kubernetes
+  hosts: all
+  become: true
+  vars:
+    dns_servers: "212.166.211.3,212.166.132.96"
+
+  tasks:
+    - name: Configurar método de red como manual
+      lineinfile:
+        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
+        regexp: '^method='
+        line: "method=manual"
+        insertafter: '[ipv4]'
+
+    - name: Configurar dirección IP
+      lineinfile:
+        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
+        regexp: '^addresses='
+        line: "addresses={{ ansible_host }}/24"
+        insertafter: '[ipv4]'
+
+    - name: Configurar puerta de enlace
+      lineinfile:
+        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
+        regexp: '^gateway='
+        line: "gateway=192.168.1.1"
+        insertafter: '[ipv4]'
+
+    - name: Configurar servidores DNS
+      lineinfile:
+        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
+        regexp: '^dns='
+        line: "dns={{ dns_servers }}"
+        insertafter: '[ipv4]'
+
+    - name: Reiniciar NetworkManager
+      systemd:
+        name: NetworkManager
+        state: restarted
+
+    - name: Configurar hostname
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configurar archivo /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+        state: present
+      with_items:
+        - "192.168.1.6 master"
+        - "192.168.1.7 worker1"
+        - "192.168.1.8 worker2"
+
+    - name: Deshabilitar intercambio de memoria
+      shell: |
+        swapoff -a
+        sed -i '/swap/d' /etc/fstab
+
+    - name: Configurar SELinux en modo permisivo
+      command: |
+        sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config && setenforce 0
+
+    - name: Configurar Firewall (Nodo Master)
+      when: inventory_hostname == "master"
+      firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+      with_items:
+        - "6443/tcp"
+        - "2379-2380/tcp"
+        - "10250/tcp"
+        - "10251/tcp"
+        - "10252/tcp"
+        - "10257/tcp"
+        - "10259/tcp"
+        - "179/tcp"
+        - "4789/udp"
+      notify: reload_firewalld
+
+    - name: Configurar Firewall (Nodos Worker)
+      when: "'worker' in inventory_hostname"
+      firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+      with_items:
+        - "10250/tcp"
+        - "30000-32767/tcp"
+        - "179/tcp"
+        - "4789/udp"
+      notify: reload_firewalld
+
+    - name: Cargar los módulos br_netfilter y overlay
+      block:
+        - name: Crear archivo de configuración para cargar módulos
+          copy:
+            dest: /etc/modules-load.d/k8s.conf
+            content: |
+              br_netfilter
+              overlay
+
+        - name: Cargar módulo br_netfilter
+          command: modprobe br_netfilter
+
+        - name: Cargar módulo overlay
+          command: modprobe overlay
+
+    - name: Configurar sysctl para Kubernetes
+      block:
+        - name: Crear archivo de configuración de sysctl
+          copy:
+            dest: /etc/sysctl.d/k8s.conf
+            content: |
+              net.bridge.bridge-nf-call-iptables  = 1
+              net.bridge.bridge-nf-call-ip6tables = 1
+              net.ipv4.ip_forward                 = 1
+
+        - name: Aplicar configuraciones de sysctl
+          command: sysctl --system
+
+  handlers:
+    - name: reload_firewalld
+      command: firewall-cmd --reload

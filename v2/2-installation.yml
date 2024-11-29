@@ -1,0 +1,72 @@
+- name: Instalar Containerd y Herramientas de Kubernetes
+  hosts: all  # Esto se ejecutará en todos los nodos del clúster
+  become: true  # Ejecutamos las tareas con privilegios de superusuario
+  tasks:
+
+    # --- Instalación de Containerd ---
+    - name: Añadir repositorio de Docker para Containerd
+      command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: Instalar Containerd
+      dnf:
+        name: containerd.io
+        state: present
+
+    - name: Configurar Containerd
+      block:
+        - name: Generar archivo de configuración por defecto
+          command: containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
+
+        - name: Habilitar SystemdCgroup en la configuración de Containerd
+          lineinfile:
+            path: /etc/containerd/config.toml
+            regexp: '^SystemdCgroup = false'
+            line: 'SystemdCgroup = true'
+
+        - name: Reiniciar Containerd
+          systemd:
+            name: containerd
+            state: restarted
+
+        - name: Habilitar Containerd al inicio
+          systemd:
+            name: containerd
+            enabled: yes
+
+        - name: Verificar estado de Containerd
+          systemd:
+            name: containerd
+            state: started
+
+    # --- Instalación de Herramientas de Kubernetes ---
+    - name: Añadir repositorio de Kubernetes
+      copy:
+        dest: /etc/yum.repos.d/kubernetes.repo
+        content: |
+          [kubernetes]
+          name=Kubernetes
+          baseurl=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+          exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
+
+    - name: Instalar kubeadm, kubelet y kubectl
+      dnf:
+        name:
+          - kubeadm
+          - kubelet
+          - kubectl
+        state: present
+        disable_excludes: kubernetes
+
+    - name: Iniciar y habilitar kubelet
+      systemd:
+        name: kubelet
+        state: started
+        enabled: yes
+
+    - name: Verificar estado de kubelet
+      systemd:
+        name: kubelet
+        state: started
