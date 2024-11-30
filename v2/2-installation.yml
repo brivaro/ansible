@@ -18,10 +18,8 @@
           command: containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
 
         - name: Habilitar SystemdCgroup en la configuración de Containerd
-          lineinfile:
-            path: /etc/containerd/config.toml
-            regexp: '^SystemdCgroup = false'
-            line: 'SystemdCgroup = true'
+          command: |
+            sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 
         - name: Reiniciar Containerd
           systemd:
