@@ -1,9 +1,8 @@
----
 - name: Configuración inicial de nodos Kubernetes
   hosts: all
   become: true
   vars:
-    dns_servers: "212.166.211.3,212.166.132.96"
+    dns_servers: "212.166.211.3;212.166.132.96"
 
   tasks:
     - name: Configurar método de red como manual
@@ -59,8 +58,14 @@
         sed -i '/swap/d' /etc/fstab
 
     - name: Configurar SELinux en modo permisivo
-      command: |
-        sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config && setenforce 0
+      command: setenforce 0
+      ignore_errors: true
+
+    - name: Configurar SELinux en el archivo config
+      lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: 'SELINUX=permissive'
 
     - name: Configurar Firewall (Nodo Master)
       when: inventory_hostname == "master"
