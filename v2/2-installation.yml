@@ -50,12 +50,21 @@
           exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 
     - name: Instalar kubeadm, kubelet y kubectl
-      command: |
-        dnf install kubeadm kubelet kubectl --disableexcludes=kubernetes
-        systemctl start kubelet
-        systemctl status kubelet
+      dnf:
+        name:
+          - kubeadm
+          - kubelet
+          - kubectl
+        state: present
+        disable_excludes: kubernetes
 
-    - name: Iniciar, habilitar kubelet y verificar estado de kubelet
-      command: |
-        systemctl start kubelet
-        systemctl status kubelet
+    - name: Iniciar y habilitar kubelet
+      systemd:
+        name: kubelet
+        state: started
+        enabled: yes
+
+    - name: Verificar estado de kubelet
+      systemd:
+        name: kubelet
+        state: started
