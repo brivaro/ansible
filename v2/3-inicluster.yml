@@ -48,7 +48,7 @@
       lineinfile:
         path: /tmp/calico.yaml
         regexp: 'value: "192.168.0.0/16"'
-        line: '        value: "172.16.0.0/12"'
+        line: '              value: "172.16.0.0/12"'
 
     - name: Aplicar la configuración de Calico
       command: kubectl apply -f /tmp/calico.yaml

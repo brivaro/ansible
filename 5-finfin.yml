@@ -1,0 +1,12 @@
+- name: Configuración de la Red (Calico)
+  hosts: master  # Solo en el nodo master
+  become: true
+  tasks:
+    - name: Configurar Calico en el archivo descargado
+      lineinfile:
+        path: /tmp/calico.yaml
+        regexp: 'value: "192.168.0.0/16"'
+        line: '              value: "172.16.0.0/12"'
+
+    - name: Aplicar la configuración de Calico
+      command: kubectl apply -f /tmp/calico.yaml
