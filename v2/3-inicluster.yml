@@ -43,12 +43,18 @@
       get_url:
         url: https://docs.projectcalico.org/manifests/calico.yaml
         dest: /tmp/calico.yaml
-
-    - name: Configurar Calico en el archivo descargado
+        
+    - name: Configurar Calico en IP
       lineinfile:
         path: /tmp/calico.yaml
-        regexp: 'value: "192.168.0.0/16"'
-        line: '              value: "172.16.0.0/12"'
+        regexp: '"192.168.0.0/16"'
+        line: '"172.16.0.0/12"'
+
+    - name: Configurar Calico en Name
+      lineinfile:
+        path: /tmp/calico.yaml
+        regexp: '# - name: CALICO_IPV4POOL_CIDR'
+        line: '            - name: CALICO_IPV4POOL_CIDR'
 
     - name: Aplicar la configuración de Calico
-      command: kubectl apply -f /tmp/calico.yaml
+      shell: kubectl apply -f /tmp/calico.yaml
