@@ -32,19 +32,11 @@
         regexp: '^dns='
         line: "dns={{ dns_servers }}"
         insertafter: '[ipv4]'
-      
-    - name: Configurar servidores DNS
-      lineinfile:
-        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
-        regexp: '^ignore-auto-dns='
-        line: "ignore-auto-dns=true"
-        insertafter: '[ipv4]'
 
-    - name: Reiniciar enp0s3 y el servicio NetworkManager
-      shell: |
-        nmcli connection down enp0s3
-        nmcli connection up enp0s3
-        systemctl restart NetworkManager
+    - name: Reiniciar NetworkManager
+      systemd:
+        name: NetworkManager
+        state: restarted
 
     - name: Configurar hostname
       hostname:
