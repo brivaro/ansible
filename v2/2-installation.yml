@@ -15,11 +15,11 @@
     - name: Configurar Containerd
       block:
         - name: Generar archivo de configuración por defecto
-          command: containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
+          command: containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
 
         - name: Habilitar SystemdCgroup en la configuración de Containerd
           command: |
-            sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+            sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 
         - name: Reiniciar Containerd
           systemd:
@@ -50,21 +50,12 @@
           exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 
     - name: Instalar kubeadm, kubelet y kubectl
-      dnf:
-        name:
-          - kubeadm
-          - kubelet
-          - kubectl
-        state: present
-        disable_excludes: kubernetes
+      command: |
+        dnf install kubeadm kubelet kubectl --disableexcludes=kubernetes
+        systemctl start kubelet
+        systemctl status kubelet
 
-    - name: Iniciar y habilitar kubelet
-      systemd:
-        name: kubelet
-        state: started
-        enabled: yes
-
-    - name: Verificar estado de kubelet
-      systemd:
-        name: kubelet
-        state: started
+    - name: Iniciar, habilitar kubelet y verificar estado de kubelet
+      command: |
+        systemctl start kubelet
+        systemctl status kubelet
