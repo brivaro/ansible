@@ -9,4 +9,4 @@
         line: '              value: "172.16.0.0/12"'
 
     - name: Aplicar la configuración de Calico
-      command: kubectl apply -f /tmp/calico.yaml
+      shell: kubectl apply -f /tmp/calico.yaml
