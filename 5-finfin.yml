@@ -2,6 +2,11 @@
   hosts: master  # Solo en el nodo master
   become: true
   tasks:
+    - name: Descargar el archivo de configuración de Calico
+        get_url:
+          url: https://docs.projectcalico.org/manifests/calico.yaml
+          dest: /tmp/calico.yaml
+
     - name: Configurar Calico en IP
       lineinfile:
         path: /tmp/calico.yaml
