@@ -2,11 +2,17 @@
   hosts: master  # Solo en el nodo master
   become: true
   tasks:
-    - name: Configurar Calico en el archivo descargado
+    - name: Configurar Calico en IP
       lineinfile:
         path: /tmp/calico.yaml
         regexp: '"192.168.0.0/16"'
         line: '"172.16.0.0/12"'
+
+    - name: Configurar Calico en Name
+      lineinfile:
+        path: /tmp/calico.yaml
+        regexp: '# - name: CALICO_IPV4POOL_CIDR'
+        line: '            - name: CALICO_IPV4POOL_CIDR'
 
     - name: Aplicar la configuración de Calico
       shell: kubectl apply -f /tmp/calico.yaml
