@@ -9,8 +9,7 @@
         dest: /tmp/join
 
     - name: Unirse al clúster de Kubernetes
-      command: "$(cat /tmp/join)"
-      when: "'join' in lookup('file', '/tmp/join')"
+      shell: sudo $(cat /tmp/join)
 
 - name: Configuración de la Red (Calico)
   hosts: master  # Solo en el nodo master
