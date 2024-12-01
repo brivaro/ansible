@@ -9,7 +9,7 @@
 
     - name: Instalar Containerd
       dnf:
-        name: containerd.io
+        name: containerd.io-1.7.23
         state: present
 
     - name: Configurar Containerd
