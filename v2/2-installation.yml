@@ -14,27 +14,21 @@
 
     - name: Configurar Containerd
       block:
-        - name: Generar archivo de configuración por defecto
+        # Configuración de containerd en el master
+        - name: Generar archivo de configuración por defecto para containerd
           command: containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
 
-        - name: Habilitar SystemdCgroup en la configuración de Containerd
-          command: |
-            sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+        - name: Habilitar SystemdCgroup en la configuración de containerd
+          command: sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 
-        - name: Reiniciar Containerd
-          systemd:
-            name: containerd
-            state: restarted
+        - name: Reiniciar containerd para aplicar cambios de configuración
+          command: sudo systemctl restart containerd
 
-        - name: Habilitar Containerd al inicio
-          systemd:
-            name: containerd
-            enabled: yes
+        - name: Habilitar containerd para que arranque al inicio
+          command: sudo systemctl enable containerd
 
-        - name: Verificar estado de Containerd
-          systemd:
-            name: containerd
-            state: started
+        - name: Verificar el estado de containerd
+          command: sudo systemctl status containerd
 
     # --- Instalación de Herramientas de Kubernetes ---
     - name: Añadir repositorio de Kubernetes
@@ -68,13 +62,3 @@
       systemd:
         name: kubelet
         state: started
-
-    # Tareas para limpiar y reiniciar containerd en los nodos workers
-    - name: Detener el servicio containerd en worker
-      command: sudo systemctl stop containerd
-
-    - name: Eliminar archivos de configuración de containerd en worker
-      command: sudo rm -rf /etc/containerd/
-
-    - name: Iniciar el servicio containerd en worker
-      command: sudo systemctl start containerd
