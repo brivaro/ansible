@@ -61,5 +61,3 @@ Si deseas mejorar este proyecto o reportar problemas, por favor abre un issue o 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
 --- 
-
-¿Quieres ajustar algo más o añadir detalles específicos?
