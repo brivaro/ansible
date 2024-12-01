@@ -43,12 +43,12 @@
       get_url:
         url: https://docs.projectcalico.org/manifests/calico.yaml
         dest: /tmp/calico.yaml
-        
+
     - name: Configurar Calico en IP
       lineinfile:
         path: /tmp/calico.yaml
-        regexp: '"192.168.0.0/16"'
-        line: '"172.16.0.0/12"'
+        regexp: 'value: "192.168.0.0/16"'
+        line: '              value: "172.16.0.0/12"'
 
     - name: Configurar Calico en Name
       lineinfile:
