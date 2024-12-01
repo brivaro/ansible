@@ -68,3 +68,13 @@
       systemd:
         name: kubelet
         state: started
+
+    # Tareas para limpiar y reiniciar containerd en los nodos workers
+    - name: Detener el servicio containerd en worker
+      command: sudo systemctl stop containerd
+
+    - name: Eliminar archivos de configuración de containerd en worker
+      command: sudo rm -rf /etc/containerd/
+
+    - name: Iniciar el servicio containerd en worker
+      command: sudo systemctl start containerd
