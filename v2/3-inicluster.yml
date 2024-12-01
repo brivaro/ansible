@@ -1,13 +1,14 @@
 - name: Inicialización del Clúster y Configuración de Calico
-  hosts: master  # Se aplica solo al nodo master
+  hosts: master
   become: true
   tasks:
 
     - name: Inicializar Kubernetes en el nodo master
       command: kubeadm init --pod-network-cidr=172.16.0.0/12
+      register: kubeadm_init_output
 
     - name: Configurar kubectl para usuario root
-      command: |
+      shell: |
         mkdir -p $HOME/.kube &&
         cp /etc/kubernetes/admin.conf $HOME/.kube/config &&
         chown $(id -u):$(id -g) $HOME/.kube/config
@@ -15,15 +16,21 @@
     - name: Guardar comando de unión
       command: kubeadm token create --print-join-command > /root/join
 
+    - name: Copiar comando join al nodo Ansible
+      fetch:
+        src: /root/join
+        dest: /tmp/join
+        flat: yes
+
 - name: Copiar el comando join a los nodos worker
   hosts: workers
   become: true
   tasks:
-    - name: Copiar archivo join desde el master
-      fetch:
-        src: "/root/join"
-        dest: "/tmp/join"
-        flat: yes
+
+    - name: Copiar archivo join desde el nodo Ansible
+      copy:
+        src: /tmp/join
+        dest: /tmp/join
 
     - name: Unirse al clúster de Kubernetes
       command: "sudo $(cat /tmp/join)"
