@@ -1,0 +1,18 @@
+- name: Configuración inicial de nodos con NFS
+  hosts: all
+  become: true
+  tasks:
+    - name: Configurar hostname
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configurar archivo /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+        state: present
+      with_items:
+        - "192.168.1.6 master"
+        - "192.168.1.7 worker1"
+        - "192.168.1.8 worker2"
+        - "192.168.1.9 nas"
