@@ -26,6 +26,15 @@
         - "4789/udp"
       notify: reload_firewalld
 
+    - name: Añadir servicio NTP al firewall
+      command: firewall-cmd --add-service=ntp --permanent
+      notify: reload_firewalld
+
+    - name: Reiniciar NetworkManager
+      systemd:
+        name: NetworkManager
+        state: restarted
+
   handlers:
   - name: reload_firewalld
     command: firewall-cmd --reload
