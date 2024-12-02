@@ -2,10 +2,6 @@
   hosts: all
   become: true
   tasks:
-    - name: Configurar hostname
-      hostname:
-        name: "{{ inventory_hostname }}"
-
     - name: Configurar archivo /etc/hosts
       lineinfile:
         path: /etc/hosts
@@ -16,3 +12,16 @@
         - "192.168.1.7 worker1"
         - "192.168.1.8 worker2"
         - "192.168.1.9 nas"
+
+    - name: Configurar Firewall
+      when: inventory_hostname == "nas"
+      firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+      with_items:
+        - "10250/tcp"
+        - "30000-32767/tcp"
+        - "179/tcp"
+        - "4789/udp"
+      notify: reload_firewalld
