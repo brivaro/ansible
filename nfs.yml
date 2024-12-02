@@ -35,6 +35,67 @@
         name: NetworkManager
         state: restarted
 
+    - name: Instalar paquetes adicionales (cliente NFS)
+      package:
+        name: nfs-utils
+        state: present
+
+    - name: Comprobar directorios exportados por el nodo de almacenamiento
+      command: showmount -e nas
+      register: exported_dirs
+      changed_when: false
+
+    - name: Mostrar directorios exportados
+      debug:
+        msg: "{{ exported_dirs.stdout }}"
+
+    - name: Crear directorios para montaje
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - /mnt/web
+        - /mnt/post
+
+    - name: Configurar montaje en /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ item }}"
+        state: present
+      with_items:
+        - "nas:/var/web /mnt/web nfs defaults,_netdev,rw 0 0"
+        - "nas:/var/post /mnt/post nfs defaults,_netdev,rw 0 0"
+
+    - name: Recargar configuración del sistema
+      command: systemctl daemon-reload
+
+    - name: Montar todos los sistemas de archivos
+      command: mount -a
+
+    - name: Verificar sistemas de archivos montados
+      command: df -h
+      register: mounted_dirs
+      changed_when: false
+
+    - name: Mostrar sistemas de archivos montados
+      debug:
+        msg: "{{ mounted_dirs.stdout }}"
+
+    - name: Probar acceso al directorio /mnt/web
+      shell: |
+        cd /mnt/web && touch test1 && ls -al
+      register: test_web
+      changed_when: false
+
+    - name: Mostrar resultados de prueba en /mnt/web
+      debug:
+        msg: "{{ test_web.stdout }}"
+
+    - name: Reiniciar NetworkManager
+      systemd:
+        name: NetworkManager
+        state: restarted
+
   handlers:
   - name: reload_firewalld
     command: firewall-cmd --reload
