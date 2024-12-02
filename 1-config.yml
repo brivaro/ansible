@@ -2,7 +2,7 @@
   hosts: all
   become: true
   vars:
-    dns_servers: "212.166.211.3;212.166.132.96"
+    dns_servers: "212.166.211.3"
 
   tasks:
     - name: Configurar dirección IP y método de red como manual
