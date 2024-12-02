@@ -14,12 +14,6 @@
     - name: Configurar servidores DNS
       command: nmcli con mod enp0s3 ipv4.dns {{ dns_servers }}
 
-    - name: Desactivar la conexión de red
-      command: nmcli con down enp0s3
-
-    - name: Activar la conexión de red
-      command: nmcli con up enp0s3
-
     - name: Reiniciar NetworkManager
       systemd:
         name: NetworkManager
