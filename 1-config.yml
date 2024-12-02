@@ -5,33 +5,20 @@
     dns_servers: "212.166.211.3;212.166.132.96"
 
   tasks:
-    - name: Configurar método de red como manual
-      lineinfile:
-        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
-        regexp: '^method='
-        line: "method=manual"
-        insertafter: '[ipv4]'
-
-    - name: Configurar dirección IP
-      lineinfile:
-        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
-        regexp: '^addresses='
-        line: "addresses={{ ansible_host }}/24"
-        insertafter: '[ipv4]'
+    - name: Configurar dirección IP y método de red como manual
+      command: nmcli con mod enp0s3 ipv4.address {{ ansible_host }}/24 ipv4.method manual
 
     - name: Configurar puerta de enlace
-      lineinfile:
-        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
-        regexp: '^gateway='
-        line: "gateway=192.168.1.1"
-        insertafter: '[ipv4]'
+      command: nmcli con mod enp0s3 ipv4.gateway 192.168.1.1
 
     - name: Configurar servidores DNS
-      lineinfile:
-        path: "/etc/NetworkManager/system-connections/enp0s3.nmconnection"
-        regexp: '^dns='
-        line: "dns={{ dns_servers }}"
-        insertafter: '[ipv4]'
+      command: nmcli con mod enp0s3 ipv4.dns {{ dns_servers }}
+
+    - name: Desactivar la conexión de red
+      command: nmcli con down enp0s3
+
+    - name: Activar la conexión de red
+      command: nmcli con up enp0s3
 
     - name: Reiniciar NetworkManager
       systemd:
