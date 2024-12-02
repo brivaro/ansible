@@ -25,3 +25,7 @@
         - "179/tcp"
         - "4789/udp"
       notify: reload_firewalld
+
+  handlers:
+  - name: reload_firewalld
+    command: firewall-cmd --reload
