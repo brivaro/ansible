@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
-  namespace: default
+  namespace: metallb-system
 spec:
   selector:
     app: nginx  # Se asocia con los pods que tienen esta etiqueta
