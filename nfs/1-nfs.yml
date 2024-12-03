@@ -97,7 +97,7 @@
         state: restarted
 
     - name: Unir NFS al cluster Kubernetes
-      when: inventory_hostname == "nfs"
+      when: inventory_hostname == "nas"
       block:
         - name: Copiar archivo join desde el nodo Ansible
           copy:
