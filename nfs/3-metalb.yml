@@ -28,9 +28,7 @@
                     - 192.168.1.7-192.168.1.8  # Ajusta el rango de IP según tu red
 
     - name: Aplicar ConfigMap de configuración
-      kubectl:
-        command: apply
-        file: /tmp/metallb-config.yaml
+      shell: kubectl apply -f /tmp/metallb-config.yaml
 
     - name: Comprobar estado de los pods de MetalLB
       command: kubectl get pods -n metallb-system
