@@ -1,5 +1,5 @@
 - name: Instalar Metrics Server en Kubernetes
-  hosts: all
+  hosts: master
   become: true
   tasks:
     - name: Descargar e instalar el manifiesto de Metrics Server
