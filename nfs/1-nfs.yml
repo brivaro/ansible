@@ -96,6 +96,17 @@
         name: NetworkManager
         state: restarted
 
+    - name: Unir NFS al cluster Kubernetes
+      when: inventory_hostname == "nfs"
+      block:
+        - name: Copiar archivo join desde el nodo Ansible
+          copy:
+            src: /tmp/join
+            dest: /tmp/join
+
+        - name: Unirse al clúster de Kubernetes
+          shell: sudo $(cat /tmp/join)
+
   handlers:
   - name: reload_firewalld
     command: firewall-cmd --reload
