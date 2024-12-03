@@ -2,14 +2,6 @@
   hosts: master
   become: true
   tasks:
-    - name: Crear namespace para MetalLB
-      kubectl:
-        command: create
-        arguments:
-          - namespace
-          - metallb-system
-      ignore_errors: yes
-
     - name: Descargar manifiestos de MetalLB
       get_url:
         url: https://raw.githubusercontent.com/metallb/metallb/v0.13.7/manifests/metallb.yaml
