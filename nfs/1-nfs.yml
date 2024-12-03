@@ -118,9 +118,9 @@
   become: true
   tasks:
     - name: Copiar archivo join desde el nodo Ansible
-          copy:
-            src: /tmp/join
-            dest: /tmp/join
+      copy:
+        src: /tmp/join
+        dest: /tmp/join
 
     - name: Unirse al clúster de Kubernetes
       shell: sudo $(cat /tmp/join)
