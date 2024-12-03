@@ -3,13 +3,13 @@
   become: true
   tasks:
     - name: Aplicar nginx-deployment.yaml
-      shell: kubectl apply -f deployment.yml
+      shell: kubectl apply -f ./deployment.yaml
       
     - name: Aplicar nginx-service.yaml
-      shell: kubectl apply -f service.yml
+      shell: kubectl apply -f ./service.yaml
 
     - name: Aplicar nginx-hpa.yaml
-      shell: kubectl apply -f hpa.yml
+      shell: kubectl apply -f ./hpa.yaml
 
     - name: Verificar los Pods y Servicios
       shell: kubectl get pods,services,hpa
