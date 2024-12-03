@@ -2,14 +2,29 @@
   hosts: master  
   become: true
   tasks:
+    - name: Copiar nginx-deployment.yaml al master
+      copy:
+        src: /home/ansible/ansible/nfs/deployment.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/deployment.yaml                    # Ruta en el master
+
+    - name: Copiar nginx-service.yaml al master
+      copy:
+        src: /home/ansible/ansible/nfs/service.yaml   # Ruta en el nodo Ansible
+        dest: /tmp/service.yaml                      # Ruta en el master
+
+    - name: Copiar nginx-hpa.yaml al master
+      copy:
+        src: /home/ansible/ansible/nfs/hpa.yaml       # Ruta en el nodo Ansible
+        dest: /tmp/hpa.yaml                          # Ruta en el master
+
     - name: Aplicar nginx-deployment.yaml
-      shell: kubectl apply -f ./deployment.yaml
-      
+      shell: kubectl apply -f /tmp/deployment.yaml
+
     - name: Aplicar nginx-service.yaml
-      shell: kubectl apply -f ./service.yaml
+      shell: kubectl apply -f /tmp/service.yaml
 
     - name: Aplicar nginx-hpa.yaml
-      shell: kubectl apply -f ./hpa.yaml
+      shell: kubectl apply -f /tmp/hpa.yaml
 
     - name: Verificar los Pods y Servicios
       shell: kubectl get pods,services,hpa
