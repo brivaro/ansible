@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: default
+spec:
+  replicas: 2  # Tres réplicas
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine  # Imagen optimizada y ligera de NGINX
+        ports:
+        - containerPort: 80  # Puerto en el contenedor
+        volumeMounts:
+        - name: web-volume
+          mountPath: /usr/share/nginx/html  # Montaje de la carpeta compartida
+      volumes:
+      - name: web-volume
+        nfs:
+          server: nas  # El servidor NFS (ajusta según tu configuración)
+          path: /mnt/web  # El directorio compartido para la página web

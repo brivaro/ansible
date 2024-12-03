@@ -1,0 +1,21 @@
+- name: Instalar Metrics Server en Kubernetes
+  hosts: all
+  become: true
+  tasks:
+    - name: Descargar e instalar el manifiesto de Metrics Server
+      kubernetes.core.k8s:
+        state: present
+        src: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.1/components.yaml
+        namespace: kube-system
+
+    - name: Verificar que el Metrics Server esté en ejecución
+      kubernetes.core.k8s_info:
+        kind: Deployment
+        name: metrics-server
+        namespace: kube-system
+      register: metrics_server_status
+
+    - name: Mostrar el estado del Metrics Server
+      debug:
+        var: metrics_server_status.resources[0].status
+      when: metrics_server_status.resources is defined
