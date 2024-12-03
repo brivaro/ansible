@@ -1,0 +1,24 @@
+- name: Desaplicar configuración de NGINX y HPA en el master
+  hosts: master  
+  become: true
+  tasks:
+    - name: Eliminar nginx-deployment
+      shell: kubectl delete -f /tmp/deployment.yaml
+      ignore_errors: yes
+
+    - name: Eliminar nginx-service
+      shell: kubectl delete -f /tmp/service.yaml
+      ignore_errors: yes
+
+    - name: Eliminar nginx-hpa
+      shell: kubectl delete -f /tmp/hpa.yaml
+      ignore_errors: yes
+
+    - name: Verificar que los recursos han sido eliminados
+      shell: kubectl get pods,services,hpa
+      register: kubectl_output
+      ignore_errors: yes
+
+    - name: Mostrar el resultado de kubectl
+      debug:
+        var: kubectl_output.stdout
