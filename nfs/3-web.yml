@@ -1,0 +1,21 @@
+- name: Aplicar configuración de NGINX y HPA en el master
+  hosts: master  
+  become: true
+  tasks:
+    - name: Aplicar nginx-deployment.yaml
+      shell: kubectl apply -f 4-deployment.yaml
+      
+    - name: Aplicar nginx-service.yaml
+      shell: kubectl apply -f 5-service.yaml
+
+    - name: Aplicar nginx-hpa.yaml
+      shell: kubectl apply -f 6-hpa.yaml
+
+    - name: Verificar los Pods y Servicios
+      shell: kubectl get pods,services,hpa
+      register: kubectl_output
+      ignore_errors: yes
+
+    - name: Mostrar el resultado de kubectl
+      debug:
+        var: kubectl_output.stdout
