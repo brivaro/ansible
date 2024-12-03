@@ -4,17 +4,17 @@
   tasks:
     - name: Copiar nginx-deployment.yaml al master
       copy:
-        src: /home/ansible/nfs/deployment.yaml  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/deployment.yaml  # Ruta en el nodo Ansible
         dest: /tmp/deployment.yaml                    # Ruta en el master
 
     - name: Copiar nginx-service.yaml al master
       copy:
-        src: /home/ansible/nfs/service.yaml   # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/service.yaml   # Ruta en el nodo Ansible
         dest: /tmp/service.yaml                      # Ruta en el master
 
     - name: Copiar nginx-hpa.yaml al master
       copy:
-        src: /home/ansible/nfs/hpa.yaml       # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/hpa.yaml       # Ruta en el nodo Ansible
         dest: /tmp/hpa.yaml                          # Ruta en el master
 
     - name: Aplicar nginx-deployment.yaml
