@@ -2,26 +2,23 @@
   hosts: master
   become: true
   tasks:
-    - name: Añadir el repositorio de Helm (si no está añadido)
-      shell: |
-        helm repo add metallb https://metallb.github.io/metallb
-        helm repo update
-      when: ansible_facts.packages['helm'] is not defined
+    - name: Crear namespace para MetalLB
+      kubectl:
+        command: create
+        arguments:
+          - namespace
+          - metallb-system
+      ignore_errors: yes
 
-    - name: Instalar MetalLB usando Helm
-      helm:
-        name: metallb
-        chart: metallb/metallb
-        namespace: metallb-system
-        create_namespace: true
-        version: "v0.13.7"  # Ajusta la versión según sea necesario
-        state: present
-      register: metallb_install
+    - name: Descargar manifiestos de MetalLB
+      get_url:
+        url: https://raw.githubusercontent.com/metallb/metallb/v0.13.7/manifests/metallb.yaml
+        dest: /tmp/metallb.yaml
 
-    - name: Comprobar si MetalLB se instaló correctamente
-      debug:
-        msg: "MetalLB instalado correctamente en el clúster"
-      when: metallb_install is changed
+    - name: Aplicar manifiestos de MetalLB
+      kubectl:
+        command: apply
+        file: /tmp/metallb.yaml
 
     - name: Crear ConfigMap de configuración de MetalLB para Layer 2
       copy:
@@ -38,14 +35,12 @@
                 - name: default
                   protocol: layer2
                   addresses:
-                    - 192.168.1.7-192.168.1.8  # Rango de IP para asignar a LoadBalancer (solo 192.168.1.7 y 192.168.1.8)
-      when: metallb_install is changed
+                    - 192.168.1.7-192.168.1.8  # Ajusta el rango de IP según tu red
 
-    - name: Aplicar ConfigMap de configuración de MetalLB
+    - name: Aplicar ConfigMap de configuración
       kubectl:
         command: apply
         file: /tmp/metallb-config.yaml
-      when: metallb_install is changed
 
     - name: Comprobar estado de los pods de MetalLB
       command: kubectl get pods -n metallb-system
@@ -60,13 +55,3 @@
       file:
         path: /tmp/metallb-config.yaml
         state: absent
-      when: metallb_install is changed
-
-    - name: Comprobar que MetalLB se está ejecutando correctamente en el nodo master
-      command: kubectl get pods -n metallb-system -o wide
-      register: metallb_status
-      changed_when: false
-
-    - name: Mostrar el estado de los pods de MetalLB en el nodo master
-      debug:
-        msg: "{{ metallb_status.stdout }}"
