@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: metallb-system
+spec:
+  replicas: 3  # Tres réplicas
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine  # Imagen optimizada y ligera de NGINX
+        ports:
+        - containerPort: 80  # Puerto en el contenedor
+        volumeMounts:
+        - name: web-volume
+          mountPath: /usr/share/nginx/html  # Montaje de la carpeta compartida
+      volumes:
+      - name: web-volume
+        nfs:
+          server: 192.168.1.9  # El servidor NFS (ajusta según tu configuración)
+          path: /mnt/web  # El directorio compartido para la página web
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - worker1
+                      - worker2
