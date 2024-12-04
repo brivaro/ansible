@@ -10,5 +10,5 @@ spec:
     - protocol: TCP
       port: 80  # Puerto que escucharán los pods
       targetPort: 80  # Puerto dentro del contenedor
-      nodePort: 30080  # Puerto expuesto en el nodo (ajusta si es necesario)
+      nodePort: 30001  # Puerto expuesto en el nodo (ajusta si es necesario)
   type: NodePort

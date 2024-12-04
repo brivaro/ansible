@@ -1,8 +1,0 @@
-- name: Etiquetar nodos como workers
-  hosts: workers
-  tasks:
-    - name: Etiquetar los nodos como workers
-      command: kubectl label node {{ inventory_hostname }} node-role.kubernetes.io/worker=true
-      register: label_output
-      failed_when: "'already has a value' not in label_output.stderr"
-      ignore_errors: true

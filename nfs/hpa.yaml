@@ -8,8 +8,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: nginx-deployment  # El nombre del Deployment NGINX
-  minReplicas: 1
-  maxReplicas: 5
+  minReplicas: 3
+  maxReplicas: 6
   metrics:
     - type: Resource
       resource:
@@ -17,3 +17,9 @@ spec:
         target:
           type: Utilization
           averageUtilization: 50  # Escala cuando el uso de CPU supera el 50%
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70 # Escalar si el uso promedio de memoria supera el 70%
