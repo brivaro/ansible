@@ -52,3 +52,13 @@ spec:
       - name: web-volume
         persistentVolumeClaim:
           claimName: web-pvc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - worker1
+                      - worker2
