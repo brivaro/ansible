@@ -24,7 +24,7 @@ spec:
       volumes:
       - name: web-volume
         nfs:
-          server: nas  # El servidor NFS (ajusta según tu configuración)
+          server: 192.168.1.9  # El servidor NFS (ajusta según tu configuración)
           path: /mnt/web  # El directorio compartido para la página web
       affinity:
         nodeAffinity:
