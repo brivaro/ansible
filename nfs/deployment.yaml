@@ -26,3 +26,13 @@ spec:
         nfs:
           server: nas  # El servidor NFS (ajusta según tu configuración)
           path: /mnt/web  # El directorio compartido para la página web
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - worker1
+                      - worker2
