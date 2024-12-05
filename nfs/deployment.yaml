@@ -10,6 +10,7 @@ spec:
   nfs:
     path: /mnt/web
     server: 192.168.1.9
+    readOnly: no
 
 ---
 apiVersion: v1
@@ -23,6 +24,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  volumeName: web-pv
 
 ---
 apiVersion: apps/v1
