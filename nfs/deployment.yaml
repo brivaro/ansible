@@ -1,39 +1,10 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: web-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    path: /mnt/web
-    server: 192.168.1.9
-    readOnly: no
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: web-pvc
-  namespace: metallb-system
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-  volumeName: web-pv
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
   namespace: metallb-system
 spec:
-  replicas: 3
+  replicas: 3  # Tres réplicas
   selector:
     matchLabels:
       app: nginx
@@ -44,16 +15,17 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:alpine
+        image: nginx:alpine  # Imagen optimizada y ligera de NGINX
         ports:
-        - containerPort: 80
+        - containerPort: 80  # Puerto en el contenedor
         volumeMounts:
         - name: web-volume
-          mountPath: /usr/share/nginx/html
+          mountPath: /usr/share/nginx/html  # Montaje de la carpeta compartida
       volumes:
       - name: web-volume
-        persistentVolumeClaim:
-          claimName: web-pvc
+        nfs:
+          server: 192.168.1.9  # El servidor NFS (ajusta según tu configuración)
+          path: /mnt/web  # El directorio compartido para la página web
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
