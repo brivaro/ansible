@@ -3,7 +3,8 @@
   become: true
   tasks:
     - name: Eliminar nginx-deployment
-      shell: kubectl delete -f /tmp/deployment.yaml
+      #shell: kubectl delete -f /tmp/deployment.yaml
+      shell: kubectl delete -f /tmp/deploymentClaim.yaml
       ignore_errors: yes
 
     - name: Eliminar nginx-service
