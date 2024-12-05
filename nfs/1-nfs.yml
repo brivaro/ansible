@@ -40,6 +40,11 @@
         name: nfs-utils
         state: present
 
+    - name: Instalar paquetes a los nodos (nfs-common)
+      package:
+        name: nfs-common
+        state: present
+
     - name: Comprobar directorios exportados por el nodo de almacenamiento
       command: showmount -e nas
       register: exported_dirs
