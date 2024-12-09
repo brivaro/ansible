@@ -1,0 +1,18 @@
+- name: Aplicar configuración de NGINX y HPA en el master
+  hosts: master  
+  become: true
+  tasks:
+    - name: Copiar deploy.yaml al master
+      copy:
+        src: ~/ansible/nfs/deploy.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/deploy.yaml                    # Ruta en el master
+
+    - name: Copiar pv.yaml al master
+      copy:
+        src: ~/ansible/nfs/pv.yaml   # Ruta en el nodo Ansible
+        dest: /tmp/pv.yaml                      # Ruta en el master
+
+    - name: Copiar pvc.yaml al master
+      copy:
+        src: ~/ansible/nfs/pvc.yaml       # Ruta en el nodo Ansible
+        dest: /tmp/pvc.yaml                          # Ruta en el master
