@@ -16,3 +16,8 @@
       copy:
         src: ~/ansible/nfs/pvc.yaml       # Ruta en el nodo Ansible
         dest: /tmp/pvc.yaml                          # Ruta en el master
+
+    - name: Copiar service.yaml al master
+      copy:
+        src: ~/ansible/nfs/service.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/service.yaml                    # Ruta en el master
