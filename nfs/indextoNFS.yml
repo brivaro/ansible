@@ -5,4 +5,4 @@
     - name: Copiar
       copy:
         src: ~/ansible/nfs/index.php  # Ruta en el nodo Ansible
-        dest: /var/web.yaml                    # Ruta en el master
+        dest: /var/web/index.php 
