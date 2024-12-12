@@ -25,7 +25,7 @@
                 - name: default
                   protocol: layer2
                   addresses:
-                    - 192.168.1.7-192.168.1.8  # Ajusta el rango de IP según tu red
+                    - 192.168.1.10-192.168.1.15  # Rango ajustado según la red disponible
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl apply -f /tmp/metallb-config.yaml
