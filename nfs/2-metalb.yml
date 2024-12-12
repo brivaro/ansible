@@ -29,17 +29,3 @@
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl apply -f /tmp/metallb-config.yaml
-
-    - name: Comprobar estado de los pods de MetalLB
-      command: kubectl get pods -n metallb-system
-      register: metallb_pods
-      changed_when: false
-
-    - name: Mostrar estado de los pods de MetalLB
-      debug:
-        msg: "{{ metallb_pods.stdout }}"
-
-    - name: Eliminar archivo temporal de configuración
-      file:
-        path: /tmp/metallb-config.yaml
-        state: absent
