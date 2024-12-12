@@ -7,8 +7,7 @@ spec:
   selector:
     app: nginx  # Se asocia con los pods que tienen esta etiqueta
   ports:
-    - protocol: TCP
-      port: 80  # Puerto que escucharán los pods
-      targetPort: 80  # Puerto dentro del contenedor
-      nodePort: 30001  # Puerto expuesto en el nodo (ajusta si es necesario)
-  type: NodePort
+    - protocol: http
+      port: 8080  # Puerto que escucharán los pods
+      targetPort: 8080  # Puerto dentro del contenedor
+  type: LoadBalancer
