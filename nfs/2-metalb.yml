@@ -1,17 +1,9 @@
 - name: Instalación y configuración de MetalLB en Kubernetes (Layer 2)
   hosts: master
   become: true
-  tasks:
-    - name: Descargar manifiestos de MetalLB
-      get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
-        dest: /tmp/metallb.yaml
-
-    - name: Aplicar manifiestos de namespace MetalLB
-      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
-             
+  tasks:     
     - name: Aplicar manifiestos de MetalLB
-      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
+      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 
     - name: Crear ConfigMap de configuración de MetalLB para Layer 2
       copy:
