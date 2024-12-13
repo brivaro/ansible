@@ -19,8 +19,8 @@
         dest: /tmp/hpa.yaml                          # Ruta en el master
 
     - name: Aplicar nginx-deployment.yaml
-      #shell: kubectl apply -f /tmp/deployment.yaml
-      shell: kubectl apply -f /tmp/deploymentClaim.yaml
+      shell: kubectl apply -f /tmp/deployment.yaml
+      #shell: kubectl apply -f /tmp/deploymentClaim.yaml
 
     - name: Aplicar nginx-service.yaml
       shell: kubectl apply -f /tmp/service.yaml
