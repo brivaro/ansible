@@ -21,3 +21,8 @@
       copy:
         src: ~/ansible/nfs/service.yaml  # Ruta en el nodo Ansible
         dest: /tmp/service.yaml                    # Ruta en el master
+
+    - name: Copiar hpa.yaml al master
+      copy:
+        src: ~/ansible/nfs/hpa.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/hpa.yaml                    # Ruta en el master
