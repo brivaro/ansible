@@ -1,0 +1,6 @@
+- name: Instalación y configuración de metric server
+  hosts: master
+  become: true
+  tasks:     
+    - name: Aplicar metric-server
+      shell: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
