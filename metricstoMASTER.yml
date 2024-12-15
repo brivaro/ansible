@@ -1,0 +1,8 @@
+- name: Aplicar metric server a Master
+  hosts: master  
+  become: true
+  tasks:
+    - name: Copiar
+      copy:
+        src: ~/ansible/metricserver  # Ruta en el nodo Ansible
+        dest: /tmp/metricserver
