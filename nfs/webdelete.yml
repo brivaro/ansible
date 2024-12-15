@@ -1,0 +1,18 @@
+- name: Deshacer configuración de Kubernetes
+  hosts: master
+  become: true
+  tasks:
+    - name: Eliminar Horizontal Pod Autoscaler (hpa.yaml)
+      shell: kubectl delete -f /tmp/hpa.yaml || true
+
+    - name: Eliminar Service (service.yaml)
+      shell: kubectl delete -f /tmp/service.yaml || true
+
+    - name: Eliminar Deployment (deploy.yaml)
+      shell: kubectl delete -f /tmp/deploy.yaml || true
+
+    - name: Eliminar PersistentVolumeClaim (pvc.yaml)
+      shell: kubectl delete -f /tmp/pvc.yaml || true
+
+    - name: Eliminar PersistentVolume (pv.yaml)
+      shell: kubectl delete -f /tmp/pv.yaml || true
