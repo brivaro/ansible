@@ -9,7 +9,7 @@
 
     - name: Guardar manifiestos de MetalLB en /tmp/metallb.yaml
       get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml #kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+        url: https://raw.githubusercontent.com/metallb/metallb/v0.13.10/manifests/metallb.yaml #kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
         dest: /tmp/metallb.yaml
 
     - name: Aplicar manifiestos de namespace MetalLB
