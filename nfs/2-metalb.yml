@@ -37,3 +37,6 @@
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl create -f /tmp/metallb-config.yaml
+
+    - name: Aplicar metric-server
+      shell: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
