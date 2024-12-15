@@ -1,0 +1,15 @@
+- name: Desinstalación y limpieza de MetalLB en Kubernetes
+  hosts: master
+  become: true
+  tasks:
+    - name: Eliminar ConfigMap de configuración de MetalLB
+      shell: kubectl delete -f /tmp/metallb-config.yaml
+      ignore_errors: true
+
+    - name: Eliminar manifiestos de MetalLB
+      shell: kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
+      ignore_errors: true
+
+    - name: Eliminar manifiestos de namespace MetalLB
+      shell: kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
+      ignore_errors: true

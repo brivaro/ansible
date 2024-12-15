@@ -2,8 +2,11 @@
   hosts: master
   become: true
   tasks:     
+    - name: Aplicar manifiestos de namespace MetalLB
+      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
+
     - name: Aplicar manifiestos de MetalLB
-      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
 
     - name: Crear ConfigMap de configuración de MetalLB para Layer 2
       copy:
