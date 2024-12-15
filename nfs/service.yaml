@@ -12,3 +12,4 @@ spec:
       port: 8080  # Puerto que escucharán los pods
       targetPort: 8080  # Puerto dentro del contenedor
   type: LoadBalancer
+  externalTrafficPolicy: Local
