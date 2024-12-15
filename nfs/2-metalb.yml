@@ -18,6 +18,9 @@
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
 
+    - name: Aplicar metric-server
+      shell: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
     - name: Crear ConfigMap de configuración de MetalLB para Layer 2
       copy:
         dest: /tmp/metallb-config.yaml
@@ -37,6 +40,3 @@
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl create -f /tmp/metallb-config.yaml
-
-    - name: Aplicar metric-server
-      shell: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
