@@ -34,27 +34,3 @@
 
     - name: Unirse al clúster de Kubernetes
       shell: sudo $(cat /tmp/join)
-
-- name: Configuración de la Red (Calico)
-  hosts: master  # Solo en el nodo master
-  become: true
-  tasks:
-    - name: Descargar el archivo de configuración de Calico
-      get_url:
-        url: https://docs.projectcalico.org/manifests/calico.yaml
-        dest: /tmp/calico.yaml
-
-    - name: Configurar Calico en IP
-      lineinfile:
-        path: /tmp/calico.yaml
-        regexp: 'value: "192.168.0.0/16"'
-        line: '              value: "172.16.0.0/12"'
-
-    - name: Configurar Calico en Name
-      lineinfile:
-        path: /tmp/calico.yaml
-        regexp: '# - name: CALICO_IPV4POOL_CIDR'
-        line: '            - name: CALICO_IPV4POOL_CIDR'
-
-    - name: Aplicar la configuración de Calico
-      shell: kubectl apply -f /tmp/calico.yaml
