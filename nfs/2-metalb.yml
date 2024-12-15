@@ -2,13 +2,8 @@
   hosts: master
   become: true
   tasks:     
-    - name: Guardar manifiestos de MetalLB en /tmp/metallb.yaml
-      get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
-        dest: /tmp/metallb.yaml
-
     - name: Aplicar manifiestos de MetalLB
-      shell: kubectl apply -f /tmp/metallb.yaml
+      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 
     - name: Crear ConfigMap de configuración de MetalLB para Layer 2
       copy:
