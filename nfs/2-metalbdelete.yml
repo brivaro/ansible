@@ -2,8 +2,8 @@
   hosts: master
   become: true
   tasks:
-    #- name: Eliminar ConfigMap de configuración de MetalLB
-    #  shell: kubectl delete -f /tmp/metallb-config.yaml
+    - name: Eliminar ConfigMap de configuración de MetalLB
+      shell: kubectl delete -f /tmp/metallb-config.yaml
 
     - name: Eliminar ConfigMap de configuración de MetalLB
       shell: kubectl delete -f /tmp/metallb.yaml
