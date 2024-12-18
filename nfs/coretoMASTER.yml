@@ -1,0 +1,8 @@
+- name: Aplicar coredns a master
+  hosts: master  
+  become: true
+  tasks:
+    - name: Copiar
+      copy:
+        src: ~/ansible/nfs/coredns.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/coredns.yaml 
