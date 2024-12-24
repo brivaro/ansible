@@ -7,14 +7,9 @@
     - name: Añadir repositorio de Docker para Containerd
       command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-    - name: Instalar Containerd
-      dnf:
-        name: containerd.io
-        state: present
-
     - name: Configurar Containerd
       shell: |
-        sudo dnf install -y containerd
+        sudo dnf install -y containerd.io
         sudo mkdir -p /etc/containerd
         sudo containerd config default | sudo tee /etc/containerd/config.toml
         sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
