@@ -7,11 +7,11 @@
         url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
         dest: /tmp/metrics-server.yaml
 
-    - name: Modificar namespace a metallb-system en el manifiesto
-      replace:
-        path: /tmp/metrics-server.yaml
-        regexp: 'namespace: kube-system'
-        replace: 'namespace: metallb-system'
+    #- name: Modificar namespace a metallb-system en el manifiesto
+    #  replace:
+    #    path: /tmp/metrics-server.yaml
+    #    regexp: 'namespace: kube-system'
+    #    replace: 'namespace: metallb-system'
 
     - name: Aplicar manifiesto de Metric Server modificado
       shell: kubectl apply -f /tmp/metrics-server.yaml
