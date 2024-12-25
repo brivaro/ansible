@@ -9,7 +9,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080  # Puerto que escucharán los pods
-      targetPort: 8080  # Puerto dentro del contenedor
+      port: 80  # Puerto que escucharán los pods
+      targetPort: 80  # Puerto dentro del contenedor
   type: LoadBalancer
   externalTrafficPolicy: Local
