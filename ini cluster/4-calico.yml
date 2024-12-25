@@ -3,14 +3,13 @@
   become: true
   tasks:
     - name: Instalar tigera-operator
-      shell: kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+      command: kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
 
     - name: Aplicar configuración personalizada de Calico
-      shell: kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/custom-resources.yaml
+      command: kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/custom-resources.yaml
 
     - name: Esperar hasta que los pods de Calico estén en estado Running
-      shell: |
-        watch kubectl get pods -n calico-system
+      command: watch kubectl get pods -n calico-system
 
     - name: Eliminar taints del nodo master
       shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
