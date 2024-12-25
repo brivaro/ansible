@@ -1,23 +1,30 @@
 - name: Configuración de la Red (Calico)
-  hosts: master  # Solo en el nodo master
+  hosts: master  # Se ejecutará en el nodo master
   become: true
   tasks:
-    - name: Descargar el archivo de configuración de Calico
-      get_url:
-        url: https://docs.projectcalico.org/manifests/calico.yaml
-        dest: /tmp/calico.yaml
+    - name: Descargar e instalar tigera-operator
+      shell: |
+        kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
+      register: tigera_operator_output
+      changed_when: "'created' in tigera_operator_output.stdout or 'configured' in tigera_operator_output.stdout"
 
-    - name: Configurar Calico en IP
-      lineinfile:
-        path: /tmp/calico.yaml
-        regexp: 'value: "192.168.0.0/16"'
-        line: '              value: "172.16.0.0/12"'
+    - name: Aplicar configuración personalizada de Calico
+      shell: |
+        kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/custom-resources.yaml
+      register: custom_resources_output
+      changed_when: "'created' in custom_resources_output.stdout or 'configured' in custom_resources_output.stdout"
 
-    - name: Configurar Calico en Name
-      lineinfile:
-        path: /tmp/calico.yaml
-        regexp: '# - name: CALICO_IPV4POOL_CIDR'
-        line: '            - name: CALICO_IPV4POOL_CIDR'
+    - name: Esperar hasta que los pods de Calico estén en estado Running
+      shell: |
+        until kubectl get pods -n calico-system | grep -v NAME | grep -v Running | wc -l | grep "^0$"; do
+          sleep 5
+        done
+      register: calico_pods_status
+      changed_when: false  # No lo marca como cambio ya que solo espera
 
-    - name: Aplicar la configuración de Calico
-      shell: kubectl apply -f /tmp/calico.yaml
+    - name: Permitir programación de pods en el nodo master eliminando la mancha (taint)
+      shell: |
+        kubectl taint nodes --all node-role.kubernetes.io/control-plane- || true
+      register: taint_output
+      changed_when: "'untainted' in taint_output.stdout or 'already' in taint_output.stdout"
+
