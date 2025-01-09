@@ -2,14 +2,6 @@
   hosts: master
   become: true
   tasks:     
-    #- name: Guardar manifiestos de MetalLB en /tmp/namespace-metallb.yaml
-      #  get_url:
-      #    url: https://raw.githubusercontent.com/metallb/metallb/v0.12.0/manifests/namespace.yaml #https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml   #https://raw.githubusercontent.com/metallb/metallb/v0.12.0/manifests/metallb.yaml
-      #    dest: /tmp/namespace-metallb.yaml
-
-      #- name: Aplicar manifiestos de namespace MetalLB
-      #  shell: kubectl apply -f /tmp/namespace-metallb.yaml
-    
     - name: Guardar manifiestos de MetalLB en /tmp/metallb.yaml
       get_url:
         url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml #https://raw.githubusercontent.com/metallb/metallb/v0.12.0/manifests/metallb.yaml   #https://github.com/metallb/metallb/blob/main/config/manifests/metallb-native.yaml
