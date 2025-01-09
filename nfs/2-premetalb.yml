@@ -1,0 +1,32 @@
+- name: Configurar strictARP en kube-proxy
+  hosts: master
+  become: yes
+  tasks:
+
+    - name: Obtener el ConfigMap kube-proxy
+      shell: |
+        kubectl get configmap kube-proxy -n kube-system -o yaml
+      register: kube_proxy_configmap
+
+    - name: Comprobar si strictARP ya está habilitado
+      set_fact:
+        strict_arp_enabled: "{{ 'strictARP: true' in kube_proxy_configmap.stdout }}"
+
+    - name: Comprobar si el modo es IPVS
+      set_fact:
+        ipvs_mode_enabled: "{{ 'mode: \"ipvs\"' in kube_proxy_configmap.stdout }}"
+
+    - name: Editar ConfigMap kube-proxy para habilitar strictARP y modo IPVS
+      shell: |
+        echo "{{ kube_proxy_configmap.stdout }}" | \
+        sed -e "s/strictARP: false/strictARP: true/" -e "s/mode: \".*\"/mode: \"ipvs\"/" | \
+        kubectl apply -f - -n kube-system
+      when: not strict_arp_enabled or not ipvs_mode_enabled
+      register: apply_result
+
+    - name: Mostrar mensaje de resultado
+      debug:
+        msg: |
+          strictARP ya estaba habilitado: {{ strict_arp_enabled }}
+          Modo IPVS ya estaba configurado: {{ ipvs_mode_enabled }}
+          Resultado de la aplicación: {{ apply_result.stdout if not (strict_arp_enabled and ipvs_mode_enabled) else 'No se realizaron cambios' }}
