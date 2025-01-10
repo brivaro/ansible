@@ -4,14 +4,14 @@
   tasks:
     - name: Descargar el archivo de configuración de Calico
       get_url:
-        url: https://docs.projectcalico.org/manifests/calico.yaml #https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
+        url: https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml #https://docs.projectcalico.org/manifests/calico.yaml
         dest: /tmp/calico.yaml
 
     - name: Configurar Calico en IP
       lineinfile:
         path: /tmp/calico.yaml
         regexp: 'value: "192.168.0.0/16"'
-        line: '              value: "172.16.0.0/12"'
+        line: '              value: "192.168.0.0/16"'  # "172.16.0.0/12"'
 
     - name: Configurar Calico en Name
       lineinfile:
