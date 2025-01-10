@@ -100,28 +100,3 @@
   handlers:
   - name: reload_firewalld
     command: firewall-cmd --reload
-
-- name: Generar token y unir nodos al clúster Kubernetes
-  hosts: master
-  become: true
-  tasks:
-    - name: Guardar comando de unión
-      shell: kubeadm token create --print-join-command > /root/join
-
-    - name: Copiar comando join al nodo Ansible
-      fetch:
-        src: /root/join
-        dest: /tmp/join
-        flat: yes
-
-- name: Unir NFS al clúster Kubernetes
-  hosts: nas
-  become: true
-  tasks:
-    - name: Copiar archivo join desde el nodo Ansible
-      copy:
-        src: /tmp/join
-        dest: /tmp/join
-
-    - name: Unirse al clúster de Kubernetes
-      shell: sudo $(cat /tmp/join)
