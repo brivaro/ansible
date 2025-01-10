@@ -4,5 +4,5 @@
   tasks:
     - name: Copiar
       copy:
-        src: ~/ansible/metricserver  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/metricserver  # Ruta en el nodo Ansible
         dest: /tmp/metricserver
