@@ -10,25 +10,25 @@
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
 
-    - name: Crear ConfigMap de configuración para Layer 2
-      copy:
-        dest: /tmp/metallb-config.yaml
-        content: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name: config
-            namespace: metallb-system
-          data:
-            config: |
-              address-pools:
-              - name: default
-                protocol: layer2
-                addresses:
-                - 192.168.1.10-192.168.1.15
+    #- name: Crear ConfigMap de configuración para Layer 2
+    #  copy:
+    #    dest: /tmp/metallb-config.yaml
+    #    content: |
+    #      apiVersion: v1
+    #      kind: ConfigMap
+    #      metadata:
+    #        name: config
+    #        namespace: metallb-system
+    #      data:
+    #        config: |
+    #          address-pools:
+    #          - name: default
+    #            protocol: layer2
+    #            addresses:
+    #            - 192.168.1.10-192.168.1.15
 
-    - name: Aplicar ConfigMap de configuración
-      shell: kubectl apply -f /tmp/metallb-config.yaml
+    #- name: Aplicar ConfigMap de configuración
+    #  shell: kubectl apply -f /tmp/metallb-config.yaml
 
     #- name: Crear configuración avanzada de MetalLB
     #  copy:
