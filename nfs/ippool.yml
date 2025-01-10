@@ -1,0 +1,19 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: prod-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.10.0/24
+  - 192.168.9.1-192.168.9.5
+  - fc00:f853:0ccd:e799::/124
+  - 172.20.50.200-172.20.50.220
+
+---
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: simplel2
+  namespace: metallb-system
