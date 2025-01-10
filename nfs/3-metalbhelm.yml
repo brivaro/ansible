@@ -11,13 +11,13 @@
 
     # 2. Extraer el binario descargado
     - name: Extract Helm binary using the tar command
-      command: tar -zxvf /tmp/helm-linux-amd64 -C /tmp/
+      shell: tar -zxvf /tmp/helm-linux-amd64.tar.gz -C /tmp/
       args:
         creates: /tmp/linux-amd64
 
     # 3. Mover el binario a /usr/local/bin
     - name: Move Helm binary to /usr/local/bin
-      command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
+      shell: mv /tmp/linux-amd64/helm /usr/local/bin/helm
       args:
         creates: /usr/local/bin/helm
 
