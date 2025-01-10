@@ -45,19 +45,14 @@
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
 
     # 7. Instalar MetalLB con Helm usando un archivo values.yaml
-    - name: Install MetalLB with Helm using values.yaml
+    - name: Install MetalLB with Helm
       command: helm install metallb metallb/metallb --namespace metallb-system --create-namespace
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
 
-    # 8. Etiquetar el namespace metallb-system para permisos elevados
+    # 8. Etiquetar el namespace metallb-system para permisos elevados usando shell
     - name: Label the metallb-system namespace for privileged pods
-      kubernetes.core.k8s:
-        name: metallb-system
-        api_version: v1
-        kind: Namespace
-        labels:
-          pod-security.kubernetes.io/enforce: privileged
-          pod-security.kubernetes.io/audit: privileged
-          pod-security.kubernetes.io/warn: privileged
-      become: yes
+      shell: |
+        kubectl label namespace metallb-system pod-security.kubernetes.io/enforce=privileged --overwrite
+        kubectl label namespace metallb-system pod-security.kubernetes.io/audit=privileged --overwrite
+        kubectl label namespace metallb-system pod-security.kubernetes.io/warn=privileged --overwrite
