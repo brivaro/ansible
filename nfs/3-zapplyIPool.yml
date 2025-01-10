@@ -1,0 +1,11 @@
+- name: Aplicar configuración de Metallb IPPool
+  hosts: master
+  become: true
+  tasks:
+    - name: Copiar ippool.yaml al master
+        copy:
+          src: ~/ansible/nfs/web/ippool.yaml  # Ruta en el nodo Ansible
+          dest: /tmp/ippool.yaml                   # Ruta en el master
+    
+    - name: Aplicar IP pool
+      shell: kubectl apply -f /tmp/ippool.yaml
