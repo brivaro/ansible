@@ -1,16 +1,27 @@
 - name: Instalación y configuración de MetalLB en Kubernetes (Layer 2)
   hosts: master
   become: true
-  tasks:     
-    - name: Guardar manifiestos de MetalLB en /tmp/metallb.yaml
+  tasks:
+    - name: Descargar manifiestos de MetalLB
       get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml #https://raw.githubusercontent.com/metallb/metallb/v0.12.0/manifests/metallb.yaml   #https://github.com/metallb/metallb/blob/main/config/manifests/metallb-native.yaml
+        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
         dest: /tmp/metallb.yaml
 
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
+      register: apply_manifest_result
 
-    - name: Crear ConfigMap de configuración de MetalLB para Layer 2
+    - name: Verificar si MetalLB se desplegó correctamente
+      shell: kubectl get pods -n metallb-system
+      register: check_metallb_pods
+      retries: 5
+      delay: 10
+
+    - name: Mostrar estado de los pods de MetalLB
+      debug:
+        msg: "{{ check_metallb_pods.stdout }}"
+
+    - name: Crear ConfigMap de configuración para Layer 2
       copy:
         dest: /tmp/metallb-config.yaml
         content: |
@@ -25,12 +36,13 @@
               - name: default
                 protocol: layer2
                 addresses:
-                - 192.168.1.10-192.168.1.15 # Rango ajustado según la red disponible 
+                - 192.168.1.10-192.168.1.15
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl apply -f /tmp/metallb-config.yaml
+      register: apply_configmap_result
 
-    - name: Crear IPAddressPool y L2Advertisement
+    - name: Crear configuración avanzada de MetalLB
       copy:
         dest: /tmp/metallb-advanced-config.yaml
         content: |
@@ -41,7 +53,7 @@
             namespace: metallb-system
           spec:
             addresses:
-            - 192.168.1.10-192.168.1.15 # Rango ajustado según la red disponible
+            - 192.168.1.10-192.168.1.15
           ---
           apiVersion: metallb.io/v1beta1
           kind: L2Advertisement
@@ -51,4 +63,8 @@
 
     - name: Aplicar configuración avanzada de MetalLB
       shell: kubectl apply -f /tmp/metallb-advanced-config.yaml
+      register: apply_advanced_config_result
 
+    - name: Verificar estado de los pods tras configuración avanzada
+      shell: kubectl get pods -n metallb-system
+      register: check_final_pods
