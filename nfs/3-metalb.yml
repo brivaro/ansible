@@ -9,17 +9,6 @@
 
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
-      register: apply_manifest_result
-
-    - name: Verificar si MetalLB se desplegó correctamente
-      shell: kubectl get pods -n metallb-system
-      register: check_metallb_pods
-      retries: 5
-      delay: 10
-
-    - name: Mostrar estado de los pods de MetalLB
-      debug:
-        msg: "{{ check_metallb_pods.stdout }}"
 
     - name: Crear ConfigMap de configuración para Layer 2
       copy:
@@ -40,7 +29,6 @@
 
     - name: Aplicar ConfigMap de configuración
       shell: kubectl apply -f /tmp/metallb-config.yaml
-      register: apply_configmap_result
 
     #- name: Crear configuración avanzada de MetalLB
     #  copy:
