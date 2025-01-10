@@ -38,9 +38,9 @@
     #            addresses:
     #            - 192.168.1.10-192.168.1.15
 
-    - name: Aplicar ConfigMap de configuración
-      shell: kubectl apply -f /tmp/metallb-config.yaml
-      register: apply_configmap_result
+    #- name: Aplicar ConfigMap de configuración
+    #  shell: kubectl apply -f /tmp/metallb-config.yaml
+    #  register: apply_configmap_result
 
     - name: Crear configuración avanzada de MetalLB
       copy:
