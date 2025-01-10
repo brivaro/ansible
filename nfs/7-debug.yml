@@ -4,25 +4,25 @@
   tasks:
     - name: Copiar deploy.yaml al master
       copy:
-        src: ~/ansible/nfs/deploy.yaml  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/deploy.yaml  # Ruta en el nodo Ansible
         dest: /tmp/deploy.yaml                    # Ruta en el master
 
     - name: Copiar pv.yaml al master
       copy:
-        src: ~/ansible/nfs/pv.yaml   # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/pv.yaml   # Ruta en el nodo Ansible
         dest: /tmp/pv.yaml                      # Ruta en el master
 
     - name: Copiar pvc.yaml al master
       copy:
-        src: ~/ansible/nfs/pvc.yaml       # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/pvc.yaml       # Ruta en el nodo Ansible
         dest: /tmp/pvc.yaml                          # Ruta en el master
 
     - name: Copiar service.yaml al master
       copy:
-        src: ~/ansible/nfs/service.yaml  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/service.yaml  # Ruta en el nodo Ansible
         dest: /tmp/service.yaml                    # Ruta en el master
 
     - name: Copiar hpa.yaml al master
       copy:
-        src: ~/ansible/nfs/hpa.yaml  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/hpa.yaml  # Ruta en el nodo Ansible
         dest: /tmp/hpa.yaml                    # Ruta en el master
