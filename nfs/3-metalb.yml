@@ -4,7 +4,7 @@
   tasks:
     - name: Descargar manifiestos de MetalLB
       get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml  # https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
         dest: /tmp/metallb.yaml
 
     - name: Aplicar manifiestos de MetalLB
