@@ -46,7 +46,7 @@
 
     # 7. Instalar MetalLB con Helm usando un archivo values.yaml
     - name: Install MetalLB with Helm
-      command: helm install metallb metallb/metallb --namespace kube-system #--create-namespace
+      command: helm install metallb metallb/metallb --namespace metallb-system --create-namespace
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
 
