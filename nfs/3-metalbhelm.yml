@@ -3,6 +3,12 @@
   become: yes
 
   tasks:
+    # 0. Instalar tar si no está disponible
+    - name: Install tar
+      package:
+        name: tar
+        state: present
+
     # 1. Descargar el binario de Helm
     - name: Download the latest Helm binary
       get_url:
@@ -11,13 +17,13 @@
 
     # 2. Extraer el binario descargado
     - name: Extract Helm binary using the tar command
-      shell: tar -zxvf /tmp/helm-linux-amd64.tar.gz -C /tmp/
+      command: tar -zxvf /tmp/helm-linux-amd64.tar.gz -C /tmp/
       args:
         creates: /tmp/linux-amd64
 
     # 3. Mover el binario a /usr/local/bin
     - name: Move Helm binary to /usr/local/bin
-      shell: mv /tmp/linux-amd64/helm /usr/local/bin/helm
+      command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
       args:
         creates: /usr/local/bin/helm
 
@@ -40,6 +46,6 @@
 
     # 7. Instalar MetalLB
     - name: Install MetalLB with Helm
-      command: helm install metallb metallb/metallb # --namespace metallb-system --create-namespace
+      command: helm install metallb metallb/metallb
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
