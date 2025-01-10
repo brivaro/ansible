@@ -21,9 +21,8 @@ Este repositorio contiene los **playbooks de Ansible** necesarios para automatiz
 
 ## **Estructura del repositorio** 📂
 - `inventory.ini`: Inventario de nodos para Ansible.
-- `1-config.yml`: Configuración inicial de los nodos.
-- `2-installation.yml`: Instalación de Containerd y herramientas de Kubernetes.
-- `3-inicluster.yml`: Inicialización del clúster y configuración de red.
+- `/inicluster`: Configuración inicial de los nodos, cluster, calico.
+- `/nfs`: Instalación y configuración de NFS.
 
 ---
 
@@ -44,6 +43,7 @@ Sigue el orden indicado para ejecutar los playbooks:
 ansible-playbook -i inventory.ini 1-config.yml
 ansible-playbook -i inventory.ini 2-installation.yml
 ansible-playbook -i inventory.ini 3-inicluster.yml
+...
 ```
 
 ### **4. Validar el clúster** ✅
