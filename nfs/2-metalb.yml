@@ -61,7 +61,7 @@
             name: l2-advertisement
             namespace: metallb-system
           spec:
-            inAddressPools:
+            ipAddressPools:
             - first-pool
 
     - name: Aplicar configuración avanzada de MetalLB
