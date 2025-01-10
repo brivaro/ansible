@@ -44,8 +44,18 @@
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
 
-    # 7. Instalar MetalLB
-    - name: Install MetalLB with Helm
-      command: helm install metallb metallb/metallb
+    # 7. Instalar MetalLB con Helm usando un archivo values.yaml
+    - name: Install MetalLB with Helm using values.yaml
+      command: helm install metallb metallb/metallb --namespace metallb-system --create-namespace
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
+    # 8. Etiquetar el espacio de nombres con permisos elevados (si es necesario)
+    - name: Label the namespace with elevated security for MetalLB
+      kubectl:
+        command: label
+        name: metallb-system
+        labels:
+          pod-security.kubernetes.io/enforce: privileged
+          pod-security.kubernetes.io/audit: privileged
+          pod-security.kubernetes.io/warn: privileged
