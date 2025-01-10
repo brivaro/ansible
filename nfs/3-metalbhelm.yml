@@ -3,35 +3,44 @@
   become: yes
 
   tasks:
-    # 2. Descargar e instalar Helm
-    - name: Download Helm installer
+    # 1. Descargar el binario de Helm
+    - name: Download the latest Helm binary
       get_url:
-        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-        dest: /tmp/get_helm.sh
-        mode: '0755'
+        url: https://get.helm.sh/helm-v3.16.1-linux-amd64.tar.gz
+        dest: /tmp/helm-linux-amd64.tar.gz
 
-    - name: Install Helm
-      command: /tmp/get_helm.sh
+    # 2. Extraer el binario descargado
+    - name: Extract Helm binary
+      unarchive:
+        src: /tmp/helm-linux-amd64.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    # 3. Mover el binario a /usr/local/bin
+    - name: Move Helm binary to /usr/local/bin
+      command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
       args:
         creates: /usr/local/bin/helm
 
-    # 3. Configurar el repositorio de MetalLB
+    # 4. Verificar la instalación de Helm
+    - name: Verify Helm installation
+      command: helm version
+      register: helm_version_output
+
+    # 5. Añadir el repositorio de MetalLB
     - name: Add MetalLB Helm repository
       command: helm repo add metallb https://metallb.github.io/metallb
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
-      register: helm_add_repo
-      changed_when: "'has been added' in helm_add_repo.stdout"
 
+    # 6. Actualizar los repositorios de Helm
     - name: Update Helm repositories
       command: helm repo update
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
 
-    # 4. Instalar MetalLB
-    - name: Download Repo MetalLB with Helm
-      command: helm repo add metallb https://metallb.github.io/metallb
-
+    # 7. Instalar MetalLB
     - name: Install MetalLB with Helm
-      command: helm install metallb metallb/metallb
-
+      command: helm install metallb metallb/metallb # --namespace metallb-system --create-namespace
+      environment:
+        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
