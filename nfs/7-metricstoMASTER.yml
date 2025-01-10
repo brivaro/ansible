@@ -5,4 +5,7 @@
     - name: Copiar
       copy:
         src: ~/ansible/nfs/web/metricserver.txt  # Ruta en el nodo Ansible
-        dest: /tmp/metricserver
+        dest: /tmp/metricserver.txt
+
+    - name: Ejecutar cambios de metric-server en Master
+      shell: sudo $(cat /tmp/metricserver.txt)
