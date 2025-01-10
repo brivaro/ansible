@@ -2,13 +2,18 @@
   hosts: master
   become: true
   tasks:
-    - name: Descargar manifiestos de MetalLB
-      get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
-        dest: /tmp/metallb.yaml
+    #- name: Descargar manifiestos de MetalLB
+    #  get_url:
+    #    url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+    #    dest: /tmp/metallb.yaml
+
+    - name: Copiar Manifiesto de Metallb v0.12.1 al master
+      copy:
+        src: ~/ansible/nfs/web/metallbv0.12.1.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/metallbv0.12.1.yaml                   # Ruta en el master
 
     - name: Aplicar manifiestos de MetalLB
-      shell: kubectl apply -f /tmp/metallb.yaml
+      shell: kubectl apply -f /tmp/metallbv0.12.1.yaml
 
     #- name: Crear ConfigMap de configuración para Layer 2
     #  copy:
