@@ -4,20 +4,15 @@
   tasks:
     - name: Descargar manifiestos de MetalLB
       get_url:
-        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+        url: https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml # https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
         dest: /tmp/metallb.yaml
-
-    #- name: Copiar Manifiesto de Metallb v0.12.1 al master
-    #  copy:
-    #    src: ~/ansible/nfs/web/metallbv0.12.1.yaml  # Ruta en el nodo Ansible
-    #    dest: /tmp/metallbv0.12.1.yaml                   # Ruta en el master
 
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
 
-    - name: Crear archivo ConfigMap de configuración en formato YAML
+    - name: Crear ConfigMap de configuración para Layer 2
       copy:
-        dest: /tmp/config.yaml
+        dest: /tmp/metallb-config.yaml
         content: |
           apiVersion: v1
           kind: ConfigMap
@@ -32,48 +27,5 @@
                 addresses:
                 - 192.168.1.10-192.168.1.15
 
-    - name: Descargar imagen de MetalLB ConfigMap to CRD
-      shell: ctr image pull quay.io/metallb/configmaptocrs:latest
-
-    - name: Ejecutar contenedor para convertir ConfigMap a CRD
-      shell: |
-        ctr run --rm -t \
-          -v /tmp:/var/input \
-          quay.io/metallb/configmaptocrs:latest
-      args:
-        chdir: /tmp
-
-    - name: Aplicar archivo CRD generado
-      shell: kubectl apply -f /tmp/resources.yaml
-      args:
-        chdir: /tmp
-
-    #- name: Crear configuración avanzada de MetalLB
-    #  copy:
-    #    dest: /tmp/metallb-advanced-config.yaml
-    #    content: |
-    #      apiVersion: metallb.io/v1beta1
-    #      kind: IPAddressPool
-    #      metadata:
-    #        name: first-pool
-    #        namespace: metallb-system
-    #      spec:
-    #        addresses:
-    #        - 192.168.1.10-192.168.1.15
-    #      ---
-    #      apiVersion: metallb.io/v1beta1
-    #      kind: L2Advertisement
-    #      metadata:
-    #        name: l2-advertisement
-    #        namespace: metallb-system
-    #      spec:
-    #        ipAddressPools:
-    #        - first-pool
-
-    #- name: Aplicar configuración avanzada de MetalLB
-    #  shell: kubectl apply -f /tmp/metallb-advanced-config.yaml
-    #  register: apply_advanced_config_result
-
-    #- name: Verificar estado de los pods tras configuración avanzada
-    #  shell: kubectl get pods -n metallb-system
-    #  register: check_final_pods
+    - name: Aplicar ConfigMap de configuración
+      shell: kubectl apply -f /tmp/metallb-config.yaml
