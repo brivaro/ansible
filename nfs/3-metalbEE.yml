@@ -7,47 +7,28 @@
         url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
         dest: /tmp/metallb.yaml
 
-    #- name: Copiar Manifiesto de Metallb v0.12.1 al master
-    #  copy:
-    #    src: ~/ansible/nfs/web/metallbv0.12.1.yaml  # Ruta en el nodo Ansible
-    #    dest: /tmp/metallbv0.12.1.yaml                   # Ruta en el master
-
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
 
-    - name: Crear archivo ConfigMap de configuración en formato YAML
-      copy:
-        dest: /tmp/config.yaml
-        content: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name: config
-            namespace: metallb-system
-          data:
-            config: |
-              address-pools:
-              - name: default
-                protocol: layer2
-                addresses:
-                - 192.168.1.10-192.168.1.15
+    #- name: Crear ConfigMap de configuración para Layer 2
+    #  copy:
+    #    dest: /tmp/metallb-config.yaml
+    #    content: |
+    #      apiVersion: v1
+    #      kind: ConfigMap
+    #      metadata:
+    #        name: config
+    #        namespace: metallb-system
+    #      data:
+    #        config: |
+    #          address-pools:
+    #          - name: default
+    #            protocol: layer2
+    #            addresses:
+    #            - 192.168.1.10-192.168.1.15
 
-    - name: Descargar imagen de MetalLB ConfigMap to CRD
-      shell: ctr image pull quay.io/metallb/configmaptocrs:latest
-
-    - name: Ejecutar contenedor para convertir ConfigMap a CRD
-      shell: |
-        ctr run --rm -t \
-          -v /tmp:/var/input:rw \
-          quay.io/metallb/configmaptocrs:latest \
-          configmaptocrs
-      args:
-        chdir: /tmp
-
-    - name: Aplicar archivo CRD generado
-      shell: kubectl apply -f /tmp/resources.yaml
-      args:
-        chdir: /tmp
+    #- name: Aplicar ConfigMap de configuración
+    #  shell: kubectl apply -f /tmp/metallb-config.yaml
 
     #- name: Crear configuración avanzada de MetalLB
     #  copy:
