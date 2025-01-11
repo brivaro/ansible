@@ -64,6 +64,13 @@
         - "10259/tcp"
         - "179/tcp"
         - "4789/udp"
+        - "30000-32767/tcp"
+        - "7946/tcp"
+        - "7946/udp"
+        - "5473/tcp"
+        - "51821/tcp"
+        - "443/tcp"
+        - "9443/tcp"
       notify: reload_firewalld
 
     - name: Configurar Firewall (Nodos Worker)
@@ -74,9 +81,17 @@
         state: enabled
       with_items:
         - "10250/tcp"
+        - "2379/tcp"
         - "30000-32767/tcp"
         - "179/tcp"
         - "4789/udp"
+        - "7946/tcp"
+        - "7946/udp"
+        - "5473/tcp"
+        - "51821/tcp"
+        - "443/tcp"
+        - "6443/tcp"
+        - "9443/tcp"
       notify: reload_firewalld
 
     - name: Cargar los módulos br_netfilter y overlay
