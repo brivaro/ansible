@@ -38,9 +38,8 @@
     - name: Ejecutar contenedor para convertir ConfigMap a CRD
       shell: |
         ctr run --rm -t \
-          -v /tmp:/var/input:rw \
-          quay.io/metallb/configmaptocrs:latest \
-          configmaptocrs
+          -v /tmp:/var/input \
+          quay.io/metallb/configmaptocrs:latest
       args:
         chdir: /tmp
 
