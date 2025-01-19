@@ -5,8 +5,8 @@
     - name: Eliminar ConfigMap de configuración de MetalLB
       shell: kubectl delete -f /tmp/metallb-config.yaml
 
-    #- name: Eliminar AdvertisementPool MetalLB
-    #  shell: kubectl delete -f /tmp/metallb-advanced-config.yaml
+    - name: Eliminar IP pool
+      shell: kubectl delete -f /tmp/ippool.yaml
 
     - name: Eliminar ConfigMap de configuración de MetalLB
       shell: kubectl delete -f /tmp/metallb.yaml
