@@ -1,4 +1,4 @@
-- name: Aplicar configuración de NGINX y HPA en el master
+- name: Copiar todos los yaml de la web personalizada, deployment, service y hpa en el master
   hosts: master  
   become: true
   tasks:
