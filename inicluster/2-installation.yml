@@ -24,14 +24,14 @@
         content: |
           [kubernetes]
           name=Kubernetes
-          baseurl=https://pkgs.k8s.io/core:/stable:/v1.28/rpm/
+          baseurl=https://pkgs.k8s.io/core:/stable:/v1.32/rpm/
           enabled=1
           gpgcheck=1
-          gpgkey=https://pkgs.k8s.io/core:/stable:/v1.28/rpm/repodata/repomd.xml.key
+          gpgkey=https://pkgs.k8s.io/core:/stable:/v1.32/rpm/repodata/repomd.xml.key
           exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 
     - name: Instalar kubeadm, kubelet y kubectl
-      command: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+      command: yum install -y kubelet kubeadm kubectl kubernetes-cni --disableexcludes=kubernetes
 
     - name: Iniciar y habilitar kubelet
       command: systemctl enable --now kubelet
