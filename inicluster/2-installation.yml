@@ -11,7 +11,7 @@
       shell: |
         sudo dnf install -y containerd.io
         sudo mkdir -p /etc/containerd
-        sudo containerd config default | sudo tee /etc/containerd/config.toml
+        sudo containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
         sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
         sudo systemctl restart containerd
         sudo systemctl enable containerd
@@ -31,19 +31,10 @@
           exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 
     - name: Instalar kubeadm, kubelet y kubectl
-      dnf:
-        name:
-          - kubeadm
-          - kubelet
-          - kubectl
-        state: present
-        disable_excludes: kubernetes
+      command: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
     - name: Iniciar y habilitar kubelet
-      systemd:
-        name: kubelet
-        state: started
-        enabled: yes
+      command: systemctl enable --now kubelet
 
     - name: Verificar estado de kubelet
       systemd:
