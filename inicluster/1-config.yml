@@ -46,7 +46,7 @@
       lineinfile:
         path: /etc/selinux/config
         regexp: '^SELINUX='
-        line: 'SELINUX=disabled' # permissive
+        line: 'SELINUX=permissive' # permissive
 
     - name: Configurar Firewall (Nodo Master)
       when: inventory_hostname == "master"
