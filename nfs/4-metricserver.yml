@@ -24,7 +24,7 @@
           replace:
             path: /tmp/components.yaml
             regexp: "spec:"
-            replace: "spec:\n\1  hostNetwork: true\2"
+            replace: "spec:\n  hostNetwork: true"
 
     #- name: Desplegar Metrics Server
     #  command: "kubectl apply -f /tmp/components.yaml"
