@@ -24,7 +24,7 @@
           lineinfile:
             path: /tmp/components.yaml
             insertafter: "- --secure-port=4443"
-            line: "      - --kubelet-insecure-tls"
+            line: "        - --kubelet-insecure-tls"
 
     #- name: Desplegar Metrics Server
     #  command: "kubectl apply -f /tmp/components.yaml"
