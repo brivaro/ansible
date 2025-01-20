@@ -14,17 +14,11 @@
 
     - name: Modificar archivo YAML de Metrics Server
       block:
-        - name: Agregar parámetros al archivo YAML
-          lineinfile:
-            path: /tmp/components.yaml
-            insertafter: "- --secure-port=4443"
-            line: "          - --kubelet-insecure-tls"
-
-        - name: Agregar hostNetwork a spec
+        - name: Reemplazar secure-port y añadir kubelet-insecure-tls
           replace:
             path: /tmp/components.yaml
-            regexp: "spec:"
-            replace: "spec:\n  hostNetwork: true"
+            regexp: "- --secure-port=10250"
+            replace: "- --secure-port=4443\n          - --kubelet-insecure-tls"
 
     #- name: Desplegar Metrics Server
     #  command: "kubectl apply -f /tmp/components.yaml"
