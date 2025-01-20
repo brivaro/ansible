@@ -14,12 +14,17 @@
 
     - name: Modificar archivo YAML de Metrics Server
       block:
-        - name: Reemplazar secure-port y añadir kubelet-insecure-tls
+        - name: Reemplazar secure-port
           replace:
             path: /tmp/components.yaml
             regexp: "- --secure-port=10250"
-            replace: "- --secure-port=4443
-                      - --kubelet-insecure-tls"
+            replace: "- --secure-port=4443"
+
+        - name: Añadir kubelet-insecure-tls
+          lineinfile:
+            path: /tmp/components.yaml
+            insertafter: "- --secure-port=4443"
+            line: "      - --kubelet-insecure-tls"
 
     #- name: Desplegar Metrics Server
     #  command: "kubectl apply -f /tmp/components.yaml"
