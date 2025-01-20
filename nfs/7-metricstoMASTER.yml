@@ -1,11 +1,12 @@
 - name: Aplicar metric server a Master
-  hosts: master  
+  hosts: master
   become: true
   tasks:
-    - name: Copiar
+    - name: Copiar archivo de configuración
       copy:
-        src: ~/ansible/nfs/web/metricserver.txt  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/metricserver.txt
         dest: /tmp/metricserver.txt
 
     - name: Ejecutar cambios de metric-server en Master
-      shell: sudo $(cat /tmp/metricserver.txt)
+      shell: |
+        kubectl patch deployment metrics-server -n metallb-system --type=json -p='$(cat /tmp/metricserver.txt)'
