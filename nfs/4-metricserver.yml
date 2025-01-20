@@ -18,7 +18,7 @@
           replace:
             path: /tmp/components.yaml
             regexp: "- --secure-port=10250"
-            replace: "- --secure-port=4443\n          - --kubelet-insecure-tls"
+            replace: "- --secure-port=4443\n        - --kubelet-insecure-tls"
 
     #- name: Desplegar Metrics Server
     #  command: "kubectl apply -f /tmp/components.yaml"
