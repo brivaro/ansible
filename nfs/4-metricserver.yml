@@ -1,11 +1,30 @@
-- name: Instalación y configuración de metric server en namespace metallb-system
+- name: Instalación y configuración de Metrics Server en namespace metallb-system
   hosts: master
   become: true
   tasks:
-    - name: Descargar manifiesto de Metric Server
-      get_url:
+    - name: Descargar manifiesto de Metric Server (modo estándar)
+      ansible.builtin.get_url:
         url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-        dest: /tmp/metrics-server.yaml
+        dest: /tmp/components.yaml
 
-    - name: Aplicar manifiesto de Metric Server
-      shell: kubectl apply -f /tmp/metrics-server.yaml
+    - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
+      ansible.builtin.get_url:
+        url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
+        dest: /tmp/high-availability.yaml
+
+    - name: Modificar archivo YAML de Metrics Server
+      block:
+        - name: Agregar parámetros al archivo YAML
+          lineinfile:
+            path: /tmp/components.yaml
+            insertafter: "- --secure-port=4443"
+            line: "          - --kubelet-insecure-tls"
+
+        - name: Agregar hostNetwork a spec
+          replace:
+            path: /tmp/components.yaml
+            regexp: "(\s*)spec:(\s*)"
+            replace: "\1spec:\n\1  hostNetwork: true\2"
+
+    #- name: Desplegar Metrics Server
+    #  command: "kubectl apply -f /tmp/components.yaml"
