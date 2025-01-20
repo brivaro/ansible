@@ -2,15 +2,15 @@
   hosts: master
   become: true
   tasks:
-    #- name: Descargar manifiesto de Metric Server (modo estándar)
-    #  get_url:
-    #    url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-    #    dest: /tmp/components.yaml
+    - name: Descargar manifiesto de Metric Server (modo estándar)
+      get_url:
+        url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+        dest: /tmp/components.yaml
 
     - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
       get_url:
         url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
-        dest: /tmp/components.yaml
+        dest: /tmp/high-availability.yaml
 
     - name: Modificar archivo YAML de Metrics Server
       block:
