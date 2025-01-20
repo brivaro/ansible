@@ -3,12 +3,12 @@
   become: true
   tasks:
     - name: Descargar manifiesto de Metric Server (modo estándar)
-      ansible.builtin.get_url:
-        url: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml # https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+      get_url:
+        url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
         dest: /tmp/components.yaml
 
     - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
-      ansible.builtin.get_url:
+      get_url:
         url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
         dest: /tmp/high-availability.yaml
 
