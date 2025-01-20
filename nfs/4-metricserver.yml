@@ -11,7 +11,7 @@
       shell: kubectl apply -f /tmp/metrics-server.yaml
 
     - name: Parchear deployment de Metric Server
-      shell: |
+      command: |
         kubectl patch deployment metrics-server -n metallb-system --type='json' -p='[
         {
         "op": "add",
