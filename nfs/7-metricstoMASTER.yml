@@ -9,4 +9,4 @@
 
     - name: Ejecutar cambios de metric-server en Master
       shell: |
-        kubectl patch deployment metrics-server -n metallb-system --type=json -p='$(cat /tmp/metricserver.txt)'
+        kubectl patch deployment metrics-server -n kube-system --type=json -p='$(cat /tmp/metricserver.txt)'
