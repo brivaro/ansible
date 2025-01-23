@@ -3,9 +3,12 @@
   become: true
   tasks:
     - name: Descargar manifiesto de Metric Server (modo estándar)
-      get_url:
-        url: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-        dest: /tmp/components.yaml
+      #get_url:
+      #  url: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+      #  dest: /tmp/components.yaml
+      copy:
+        src: ~/ansible/nfs/web/components.yaml  # Ruta en el nodo Ansible
+        dest: /tmp/components.yaml                    # Ruta en el master
 
     - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
       get_url:
@@ -26,5 +29,5 @@
             insertafter: "- --secure-port=4443"
             line: "        - --kubelet-insecure-tls"
 
-    #- name: Desplegar Metrics Server
-    #  command: "kubectl apply -f /tmp/components.yaml"
+    - name: Desplegar Metrics Server
+      command: "kubectl apply -f /tmp/components.yaml"
