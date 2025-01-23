@@ -4,7 +4,7 @@
   tasks:
     - name: Descargar manifiesto de Metric Server (modo estándar)
       get_url:
-        url: https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+        url: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
         dest: /tmp/components.yaml
 
     - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
