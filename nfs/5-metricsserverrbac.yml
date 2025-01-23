@@ -1,0 +1,11 @@
+- name: Desplegar configuración de RBAC para Metrics Server
+  hosts: master
+  become: true
+  tasks:
+    - name: Copiar el archivo metrics-server-rbac.yaml al directorio /tmp
+      copy:
+        src: metrics-server-rbac.yaml
+        dest: /tmp/metrics-server-rbac.yaml
+
+    - name: Aplicar configuración de RBAC para Metrics Server
+      command: "kubectl apply -f /tmp/metrics-server-rbac.yaml"
