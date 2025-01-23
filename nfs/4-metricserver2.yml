@@ -2,6 +2,35 @@
   hosts: master
   become: true
   tasks:
+    - name: Comprobar si Helm ya está instalado
+      command: helm version --short
+      register: helm_check
+      failed_when: false
+
+    - name: Descargar y instalar Helm si no está instalado
+      block:
+        - name: Descargar binario de Helm
+          get_url:
+            url: https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz
+            dest: /tmp/helm.tar.gz
+
+        - name: Extraer binario de Helm
+          unarchive:
+            src: /tmp/helm.tar.gz
+            dest: /tmp/
+            remote_src: true
+
+        - name: Mover el binario de Helm al PATH
+          copy:
+            src: /tmp/linux-amd64/helm
+            dest: /usr/local/bin/helm
+            mode: '0755'
+
+        - name: Verificar instalación de Helm
+          command: helm version --short
+
+      when: helm_check.rc != 0
+
     - name: Agregar el repositorio de Helm para Metrics Server
       command: helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
       register: add_repo_result
