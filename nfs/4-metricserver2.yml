@@ -20,23 +20,12 @@
         executable: /bin/bash
 
     - name: Agregar el repositorio de Helm para Metrics Server
-      command: helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+      shell: helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 
     - name: Actualizar los repositorios de Helm
-      command: helm repo update
+      shell: helm repo update
 
     - name: Instalar o actualizar el Metrics Server
-      command: >
+      shell: >
         helm upgrade --install metrics-server metrics-server/metrics-server
-        --namespace metallb-system
-        --create-namespace
         --set args={--kubelet-insecure-tls}
-
-    - name: Verificar instalación de Metrics Server
-      shell: kubectl get deployment metrics-server -n metallb-system
-      register: verify_result
-      failed_when: "'metrics-server' not in verify_result.stdout"
-
-    - name: Mostrar resultado de la instalación
-      debug:
-        msg: "El Metrics Server se ha instalado correctamente en el namespace metallb-system."
