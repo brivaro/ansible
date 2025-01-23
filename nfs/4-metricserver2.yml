@@ -2,40 +2,25 @@
   hosts: master
   become: true
   tasks:
-    - name: Comprobar si Helm ya está instalado
-      command: helm version --short
-      register: helm_check
-      failed_when: false
+    - name: Instalar paquetes necesarios (tar y curl)
+      package:
+        name: 
+          - tar
+          - curl
+        state: present
 
-    - name: Descargar y instalar Helm si no está instalado
-      block:
-        - name: Descargar binario de Helm
-          get_url:
-            url: https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz
-            dest: /tmp/helm.tar.gz
-
-        - name: Extraer binario de Helm
-          unarchive:
-            src: /tmp/helm.tar.gz
-            dest: /tmp/
-            remote_src: true
-
-        - name: Mover el binario de Helm al PATH
-          copy:
-            src: /tmp/linux-amd64/helm
-            dest: /usr/local/bin/helm
-            mode: '0755'
-
-        - name: Verificar instalación de Helm
-          command: helm version --short
-
-      when: helm_check.rc != 0
+    - name: Instalar Helm si no está instalado
+      shell: |
+        if ! command -v helm &> /dev/null; then
+          curl -fsSL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz
+          tar -xzf /tmp/helm.tar.gz -C /tmp
+          mv /tmp/linux-amd64/helm /usr/local/bin/helm
+        fi
+      args:
+        executable: /bin/bash
 
     - name: Agregar el repositorio de Helm para Metrics Server
       command: helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-      register: add_repo_result
-      changed_when: "'metrics-server' in add_repo_result.stdout"
-      ignore_errors: false
 
     - name: Actualizar los repositorios de Helm
       command: helm repo update
@@ -46,14 +31,11 @@
         --namespace metallb-system
         --create-namespace
         --set args={--kubelet-insecure-tls}
-      register: install_result
-      changed_when: "'metrics-server' in install_result.stdout"
 
     - name: Verificar instalación de Metrics Server
       shell: kubectl get deployment metrics-server -n metallb-system
       register: verify_result
       failed_when: "'metrics-server' not in verify_result.stdout"
-      ignore_errors: false
 
     - name: Mostrar resultado de la instalación
       debug:
