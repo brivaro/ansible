@@ -105,9 +105,9 @@ metadata:
 spec:
   ports:
   - name: https
-    port: 443
+    port: 4443 # 443
     protocol: TCP
-    targetPort: https
+    targetPort: 4443 # https
   selector:
     k8s-app: metrics-server
 ---
@@ -145,7 +145,7 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /livez
-            port: https
+            port: 4443 # https
             scheme: HTTPS
           periodSeconds: 10
         name: metrics-server
@@ -157,7 +157,7 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /readyz
-            port: https
+            port: 4443 # https
             scheme: HTTPS
           initialDelaySeconds: 20
           periodSeconds: 10
