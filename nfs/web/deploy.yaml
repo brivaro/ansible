@@ -25,3 +25,10 @@ spec:
       - name: web-volume
         persistentVolumeClaim:
           claimName: web-pvc
+      resources:
+          requests:
+            cpu: 100m # cada pod solicita 100 milicores, es decir, el 10% de un núcleo de CPU
+            memory: 128Mi # solicita 128 MiB de memoria RAM
+          limits:
+            cpu: 200m # no podrá usar más del 20% de un núcleo
+            memory: 256Mi # no podrá usar más de 256 MiB de memoria RAM
