@@ -7,7 +7,7 @@
       shell: |
         kubectl get configmap kube-proxy -n kube-system -o yaml | \
         sed -e "s/strictARP: false/strictARP: true/" -e "s/mode: \".*\"/mode: \"ipvs\"/" | \
-        kubectl apply -f - -n kube-system \
+        kubectl apply -f - -n kube-system | \
         kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io metallb-webhook-configuration
       register: apply_result
 
