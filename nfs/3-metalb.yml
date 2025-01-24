@@ -9,3 +9,6 @@
 
     - name: Aplicar manifiestos de MetalLB
       shell: kubectl apply -f /tmp/metallb.yaml
+
+    - name: Eliminar webhook
+      command: kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io metallb-webhook-configuration
