@@ -150,7 +150,7 @@ spec:
           periodSeconds: 10
         name: metrics-server
         ports:
-        - containerPort: 10255
+        - containerPort: 10250
           name: https
           protocol: TCP
         readinessProbe:
