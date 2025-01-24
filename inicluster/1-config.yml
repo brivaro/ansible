@@ -56,6 +56,7 @@
         state: enabled
       with_items:
         - "6443/tcp"
+        - "10255/tcp"
         - "2379-2380/tcp"
         - "10250/tcp"
         - "10251/tcp"
@@ -80,6 +81,7 @@
         permanent: true
         state: enabled
       with_items:
+        - "10255/tcp"
         - "10250/tcp"
         - "30000-32767/tcp"
         - "179/tcp"
