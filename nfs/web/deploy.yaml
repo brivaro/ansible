@@ -22,7 +22,7 @@ spec:
         - name: web-volume
           mountPath: /usr/share/nginx/html
         resources:
-        - requests:
+          requests:
             cpu: 100m # cada pod solicita 100 milicores, es decir, el 10% de un núcleo de CPU
             memory: 128Mi # solicita 128 MiB de memoria RAM
           limits:
