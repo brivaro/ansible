@@ -130,6 +130,7 @@ spec:
       labels:
         k8s-app: metrics-server
     spec:
+      nodeName: master
       hostNetwork: true
       containers:
       - args:
