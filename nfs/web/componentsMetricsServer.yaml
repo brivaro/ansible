@@ -131,7 +131,7 @@ spec:
         k8s-app: metrics-server
     spec:
       hostNetwork: true
-      nodeName: "master"
+      nodeName: "master" # el metric server tiene que estar en el control plane
       containers:
       - args:
         - --cert-dir=/tmp
