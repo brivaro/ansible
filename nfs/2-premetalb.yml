@@ -10,6 +10,9 @@
         kubectl apply -f - -n kube-system
       register: apply_result
 
+    - name: Eliminar webhook
+      command: kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io metallb-webhook-configuration
+
     - name: Mostrar mensaje de resultado
       debug:
         msg: "Resultado de la aplicación: {{ apply_result.stdout }}"
