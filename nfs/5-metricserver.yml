@@ -7,7 +7,7 @@
       #  url: https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
       #  dest: /tmp/components.yaml
       copy:
-        src: ~/ansible/nfs/web/components.yaml  # Ruta en el nodo Ansible
+        src: ~/ansible/nfs/web/componentsMetricsServer.yaml  # Ruta en el nodo Ansible
         dest: /tmp/components.yaml                    # Ruta en el master
 
     - name: Descargar manifiesto de Metric Server (modo alta disponibilidad)
