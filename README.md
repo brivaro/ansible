@@ -61,7 +61,7 @@ El objetivo de este repositorio es ofrecer una forma sencilla y automatizada par
 
 - `/discarded`: Carpeta de aspectos que he ido probando por incompatibilidad de versiones y pruebas.
 - `/inicluster`: Configuración inicial de los nodos, cluster, Calico.
-- `/nfs`: Instalación y configuración de **NFS**, **Metallb**, **Metrics Server**, Deployment de la Web.
+- `/nfs`: Instalación y configuración de **NFS**, **Metallb**, **Metrics Server**, **Deployment de la Web**.
 - `/nfs/web`: Todos los documentos necesarios para la web, manifiestos...
 - `inventory.ini`: Inventario de nodos para Ansible.
 
