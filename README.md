@@ -1,6 +1,6 @@
 <div align="center"><a name="readme-top"></a>
   
-  <img height="300" alt="Kubernetes logo" src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png">
+  <img height="200" alt="Kubernetes logo" src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png">
 
 # **Clúster Kubernetes con Ansible en AlmaLinux 9** 🚀
 
@@ -116,12 +116,4 @@ Si deseas mejorar este proyecto o reportar problemas, por favor abre un issue o 
 
 ## **Licencia** 📜
 
-Este proyecto está bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más detalles.
-
----
-
-<div align="center">
-
-![GitHub Logo](https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png)
-
-</div>
+Este proyecto está bajo la **Licencia MIT**.
