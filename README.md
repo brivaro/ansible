@@ -103,8 +103,6 @@ kubectl get nodes
 ```
 Esto te permitirá verificar que los nodos se han unido correctamente al clúster.
 
----
-
 ### **5. Verificar los Pods** 🧐
 Desde el nodo master, puedes verificar el estado de los pods ejecutando:
 
