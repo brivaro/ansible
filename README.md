@@ -59,7 +59,7 @@ El objetivo de este repositorio es ofrecer una forma sencilla y automatizada par
 
 ## **Estructura del repositorio** 📂
 
-- `/discarded`: Carpeta de desechos que he ido probando
+- `/discarded`: Carpeta de aspectos que he ido probando por incompatibilidad de versiones y pruebas.
 - `inventory.ini`: Inventario de nodos para Ansible.
 - `/inicluster`: Configuración inicial de los nodos, cluster, Calico.
 - `/nfs`: Instalación y configuración de **NFS**, **Metallb**, **Metrics Server**, Deployment de la Web.
