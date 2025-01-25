@@ -1,81 +1,90 @@
+<div align="center"><a name="readme-top"></a>
+  
+  <img height="300" alt="Kubernetes logo" src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png">
+
 # **Clúster Kubernetes con Ansible en AlmaLinux 9** 🚀
 
-Este repositorio contiene los **playbooks de Ansible** necesarios para automatizar la configuración de un clúster Kubernetes en **AlmaLinux 9**. Utilizando un nodo Ansible como orquestador, puedes configurar un nodo master y varios nodos worker sin recurrir a herramientas como Kubespray.
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes/kubernetes)](https://goreportcard.com/report/github.com/kubernetes/kubernetes) 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/kubernetes/kubernetes?sort=semver)
+![GitHub contributors](https://img.shields.io/github/contributors/brivaro/kubernetes-ansible?COLOR=%23FF6500)
+![GitHub repo size](https://img.shields.io/github/repo-size/brivaro/kubernetes-ansible?color=%23704264)
+
+Este repositorio contiene los **playbooks de Ansible** necesarios para automatizar la configuración de un clúster Kubernetes en AlmaLinux 9. Utilizando un nodo Ansible como orquestador, puedes configurar un nodo master y varios nodos worker sin recurrir a herramientas como Kubespray.
+
+</div>
+
+<details>
+<summary><kbd>Table of Contents</kbd></summary>
+
+- [Objetivo](#-objetivo)
+- [Características principales](#-características-principales)
+- [Requisitos](#-requisitos)
+- [Estructura del repositorio](#-estructura-del-repositorio)
+- [Uso](#-uso)
+- [Contribuciones](#-contribuciones)
+- [Licencia](#-licencia)
+
+</details>
 
 ---
 
-## **📊 Tabla de contenidos**
+## **Objetivo** 🎯
 
-- [🚀 Tecnologías Utilizadas](#%F0%9F%9A%80-tecnologías-utilizadas)
-- [📋 Características principales](#%F0%9F%93%8B-características-principales)
-- [📋 Requisitos](#%F0%9F%93%8B-requisitos)
-- [📂 Estructura del repositorio](#%F0%9F%93%82-estructura-del-repositorio)
-- [⚙️ Uso](#%F0%9F%93%99-uso)
-- [💡 Contribuciones](#%F0%9F%92%A1-contribuciones)
-- [📜 Licencia](#%F0%9F%93%9C-licencia)
+El objetivo de este repositorio es ofrecer una forma sencilla y automatizada para configurar un clúster Kubernetes en AlmaLinux 9 mediante Ansible, para facilitar la administración de aplicaciones en contenedores.
 
 ---
 
-## **🚀 Tecnologías Utilizadas** 
-![Kubernetes](https://img.shields.io/badge/Kubernetes-%20-%23E00000?logo=kubernetes&logoColor=white) ![Ansible](https://img.shields.io/badge/Ansible-%20-%23E10000?logo=ansible&logoColor=white) ![AlmaLinux](https://img.shields.io/badge/AlmaLinux-%20-%2300782C?logo=almalinux&logoColor=white) ![Containerd](https://img.shields.io/badge/Containerd-%20-%23000?logo=containerd&logoColor=white)
+## **Características principales** 🔧
 
-### **Tecnologías**:
-
-- **Kubernetes** para la orquestación de contenedores.
-- **Ansible** para la automatización de la infraestructura.
-- **AlmaLinux 9** como sistema operativo base.
-- **Containerd** como runtime de contenedores.
-- **Calico** para la gestión de redes en Kubernetes.
-
----
-
-## **📋 Características principales** 🔧
 - Configuración de nodos (swap, SELinux, firewall, módulos del kernel, etc.).
-- Instalación de Containerd y herramientas de Kubernetes (kubeadm, kubelet, kubectl).
+- Instalación de **Containerd** y herramientas de Kubernetes (**kubeadm**, **kubelet**, **kubectl**).
 - Inicialización del clúster y unión de nodos worker.
 - Configuración de la red del clúster con **Calico**.
-- Despliegue de NFS, **Metallb**, **Metrics Server**, y una web en Kubernetes.
+
+> [!IMPORTANT]
+> Este repositorio está diseñado para facilitar la creación de un clúster de Kubernetes de manera eficiente. Se requiere una mínima configuración en cada nodo para ejecutar los playbooks.
 
 ---
 
-## **📋 Requisitos** 🖥️
+## **Requisitos** 📋
 
-1. **Virtualización:** Máquinas virtuales en VirtualBox o similar.
-2. **Sistema Operativo:** AlmaLinux 9 Minimal en todos los nodos.
-3. **Especificaciones mínimas:**
+1. **Virtualización**: Máquinas virtuales en VirtualBox o similar.
+2. **Sistema Operativo**: AlmaLinux 9 Minimal en todos los nodos.
+3. **Especificaciones mínimas**:
    - Nodo Ansible/Master: 2 GiB RAM, 2 vCPU.
    - Nodo Worker: 1 GiB RAM, 1 vCPU.
 
 ---
 
-## **📂 Estructura del repositorio**
+## **Estructura del repositorio** 📂
 
-```
-/discarded                    # Carpeta de pruebas fallidas
-/inicluster                   # Configuración de los nodos, clúster y Calico
-/nfs                          # Configuración de NFS, Metallb, Metrics Server, Deployment de la Web
-/nfs/web                      # Manifiestos y archivos web
-inventory.ini                # Inventario de nodos para Ansible
-```
+- `/discarded`: Carpeta de desechos que he ido probando
+- `inventory.ini`: Inventario de nodos para Ansible.
+- `/inicluster`: Configuración inicial de los nodos, cluster, Calico.
+- `/nfs`: Instalación y configuración de **NFS**, **Metallb**, **Metrics Server**, Deployment de la Web.
+- `/nfs/web`: Todos los documentos necesarios para la web, manifiestos...
+
+> [!NOTE]
+> La estructura del repositorio está organizada para facilitar la gestión de cada parte del clúster por separado. Los playbooks están distribuidos de manera modular para su fácil ejecución.
 
 ---
 
-## **⚙️ Uso**
+## **Uso** ⚙️
 
 ### **1. Clonar el repositorio**
-
-Primero, clona el repositorio:
 ```bash
 git clone https://github.com/brivaro/ansible
 cd ansible
 ```
 
 ### **2. Configurar el inventario**
-
 Edita el archivo `inventory.ini` con las IPs de los nodos en tu entorno.
 
-### **3. Ejecutar los playbooks**
+> [!TIP]
+> Asegúrate de que todos los nodos sean accesibles desde el nodo Ansible y que el puerto SSH esté abierto para poder ejecutar las tareas de Ansible.
 
+### **3. Ejecutar los playbooks**
 Sigue el orden indicado para ejecutar los playbooks:
 ```bash
 ansible-playbook -i inventory.ini 1-config.yml
@@ -84,37 +93,35 @@ ansible-playbook -i inventory.ini 3-inicluster.yml
 ...
 ```
 
-### **4. Validar el clúster** ✅
+> [!IMPORTANT]
+> Ejecutar los playbooks en el orden correcto es esencial para asegurar la correcta instalación de Kubernetes en el clúster. No omitas ningún paso.
 
-Desde el nodo master, verifica el estado de los nodos:
+### **4. Validar el clúster** ✅
+Desde el nodo master:
 ```bash
 kubectl get nodes
 ```
+Esto te permitirá verificar que los nodos se han unido correctamente al clúster.
 
 ---
 
-## **💡 Contribuciones**
+## **Contribuciones** 💡
 
-Si deseas mejorar este proyecto o reportar problemas, por favor abre un **issue** o envía un **pull request**.
+Si deseas mejorar este proyecto o reportar problemas, por favor abre un issue o envía un pull request.
+
+> [!NOTE]
+> Asegúrate de seguir las mejores prácticas al contribuir, como escribir descripciones claras de los cambios y asegurarte de que los playbooks sigan las convenciones de Ansible.
 
 ---
 
-## **📜 Licencia**
+## **Licencia** 📜
 
 Este proyecto está bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más detalles.
 
 ---
 
-## **⚠️ Notas importantes** ⚠️
+<div align="center">
 
-- **¡Recuerda!** Asegúrate de tener las máquinas virtuales configuradas correctamente antes de ejecutar los playbooks, ya que algunos pasos pueden depender de la configuración específica de la red.
-- **¡Importante!** La configuración de NFS requiere que los servicios estén funcionando correctamente antes de proceder con la instalación de **Metallb** y **Metrics Server**.
+![GitHub Logo](https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png)
 
----
-
-### **🔧 Badges adicionales**
-
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569)  
-[![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes/kubernetes)](https://goreportcard.com/report/github.com/kubernetes/kubernetes)
-
----
+</div>
