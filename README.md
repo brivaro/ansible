@@ -65,6 +65,7 @@ El objetivo de este repositorio es ofrecer una forma sencilla y automatizada par
 ## **Estructura del repositorio** 📂
 
 - `/discarded`: Carpeta de aspectos que he ido probando por incompatibilidad de versiones y pruebas.
+- `/memoria`: Carpeta con la explicación detallada paso a paso.
 - `/inicluster`: Configuración inicial de los nodos, cluster, Calico.
 - `/nfs`: Instalación y configuración de **NFS**, **Metallb**, **Metrics Server**, **Deployment de la Web**.
 - `/nfs/web`: Todos los documentos necesarios para la web, manifiestos...
