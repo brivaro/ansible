@@ -4,18 +4,11 @@
 
 # **Clúster Kubernetes en AlmaLinux 9** 🚀
 
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569)  
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/brivaro/kubernetes-ansible?sort=semver)  
-![GitHub repo size](https://img.shields.io/github/repo-size/brivaro/kubernetes-ansible?color=%23704264)  
-![Last commit](https://img.shields.io/github/last-commit/brivaro/kubernetes-ansible?color=%23005B41)  
-![GitHub created at](https://img.shields.io/github/created-at/brivaro/kubernetes-ansible?color=%234F1787)
-
-### **Tecnologías utilizadas** 🛠️
-- **Kubernetes**: [1.24.0](https://kubernetes.io/releases/)
-- **Calico**: [3.22.0](https://docs.projectcalico.org/getting-started/kubernetes/)
-- **Metallb**: [v0.12.1](https://metallb.universe.tf/)
-- **Metrics Server**: [v0.6.0](https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.6.0)
-- **Containerd**: [1.6.4](https://github.com/containerd/containerd/releases/tag/v1.6.4)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes/kubernetes)](https://goreportcard.com/report/github.com/kubernetes/kubernetes) 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/kubernetes/kubernetes?sort=semver)
+![GitHub contributors](https://img.shields.io/github/contributors/brivaro/kubernetes-ansible?COLOR=%23FF6500)
+![GitHub repo size](https://img.shields.io/github/repo-size/brivaro/kubernetes-ansible?color=%23704264)
 
 Este repositorio contiene los **playbooks de Ansible** necesarios para automatizar la configuración de un clúster Kubernetes en AlmaLinux 9. Utilizando un nodo Ansible como orquestador, puedes configurar un nodo master y varios nodos worker sin recurrir a herramientas como Kubespray.
 
