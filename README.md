@@ -5,10 +5,15 @@
 # **Clúster Kubernetes en AlmaLinux 9** 🚀
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569) 
-[![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes/kubernetes)](https://goreportcard.com/report/github.com/kubernetes/kubernetes) 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/kubernetes/kubernetes?sort=semver)
-![GitHub contributors](https://img.shields.io/github/contributors/brivaro/kubernetes-ansible?COLOR=%23FF6500)
-![GitHub repo size](https://img.shields.io/github/repo-size/brivaro/kubernetes-ansible?color=%23704264)
+[![Containerd Version](https://img.shields.io/badge/Containerd-1.6.12-brightgreen)](https://github.com/containerd/containerd/releases/tag/v1.6.12)
+[![Kubernetes Version](https://img.shields.io/badge/Kubernetes-v1.32-blue)](https://github.com/kubernetes/kubernetes/releases/tag/v1.32.0)
+[![Calico Version](https://img.shields.io/badge/Calico-v3.26.1-orange)](https://github.com/projectcalico/calico/releases/tag/v3.26.1)
+[![MetalLB Version](https://img.shields.io/badge/MetalLB-v0.14.9-yellow)](https://github.com/metallb/metallb/releases/tag/v0.14.9)
+[![Metrics Server Version](https://img.shields.io/badge/Metric%20Server-v0.7.2-purple)](https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.7.2)
+[![kubectl Version](https://img.shields.io/badge/kubectl-v1.32.0-blue)](https://github.com/kubernetes/kubernetes/releases/tag/v1.32.0)
+[![Docker Version](https://img.shields.io/badge/Docker-v20.10.8-blue)](https://docs.docker.com/engine/release-notes/#20108)
+
 
 Este repositorio contiene los **playbooks de Ansible** necesarios para automatizar la configuración de un clúster Kubernetes en AlmaLinux 9. Utilizando un nodo Ansible como orquestador, puedes configurar un nodo master y varios nodos worker sin recurrir a herramientas como Kubespray.
 
