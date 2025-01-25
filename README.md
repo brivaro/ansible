@@ -29,7 +29,7 @@ Este repositorio contiene los **playbooks de Ansible** necesarios para automatiz
 
 ---
 
-## **Objetivo** 🎯 (#-objetivo)
+## **Objetivo** 🎯
 
 El objetivo de este repositorio es ofrecer una forma sencilla y automatizada para configurar un clúster Kubernetes en AlmaLinux 9 mediante Ansible, para facilitar la administración de aplicaciones en contenedores.
 
