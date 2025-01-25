@@ -2,7 +2,7 @@
   
   <img height="200" alt="Kubernetes logo" src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png">
 
-# **Clúster Kubernetes con Ansible en AlmaLinux 9** 🚀
+# **Clúster Kubernetes en AlmaLinux 9** 🚀
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/569/badge)](https://bestpractices.coreinfrastructure.org/projects/569) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes/kubernetes)](https://goreportcard.com/report/github.com/kubernetes/kubernetes) 
