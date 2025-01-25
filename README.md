@@ -21,7 +21,7 @@ Este repositorio contiene los **playbooks de Ansible** necesarios para automatiz
 - [Características principales](#características-principales-)
 - [Requisitos](#requisitos-)
 - [Estructura del repositorio](#estructura-del-repositorio-)
-- [Uso](#uso-)
+- [Uso](#uso-%EF%B8%8F)
 - [Contribuciones](#contribuciones-)
 - [Licencia](#licencia-)
 
