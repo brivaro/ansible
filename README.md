@@ -17,13 +17,13 @@ Este repositorio contiene los **playbooks de Ansible** necesarios para automatiz
 <details>
 <summary><kbd>Table of Contents</kbd></summary>
 
-- [Objetivo](#-objetivo)
-- [Características principales](#-características-principales)
-- [Requisitos](#-requisitos)
-- [Estructura del repositorio](#-estructura-del-repositorio)
-- [Uso](#-uso)
-- [Contribuciones](#-contribuciones)
-- [Licencia](#-licencia)
+- [Objetivo](#objetivo-)
+- [Características principales](#características-principales-)
+- [Requisitos](#requisitos-)
+- [Estructura del repositorio](#estructura-del-repositorio-)
+- [Uso](#uso-)
+- [Contribuciones](#contribuciones-)
+- [Licencia](#licencia-)
 
 </details>
 
