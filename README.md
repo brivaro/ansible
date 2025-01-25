@@ -87,9 +87,9 @@ Edita el archivo `inventory.ini` con las IPs de los nodos en tu entorno.
 ### **3. Ejecutar los playbooks**
 Sigue el orden indicado para ejecutar los playbooks:
 ```bash
-ansible-playbook -i inventory.ini 1-config.yml
-ansible-playbook -i inventory.ini 2-installation.yml
-ansible-playbook -i inventory.ini 3-inicluster.yml
+ansible-playbook -i inventory.ini ./inicluster/1-config.yml
+ansible-playbook -i inventory.ini ./inicluster/2-installation.yml
+ansible-playbook -i inventory.ini ./inicluster/3-inicluster.yml
 ...
 ```
 
@@ -102,6 +102,23 @@ Desde el nodo master:
 kubectl get nodes
 ```
 Esto te permitirá verificar que los nodos se han unido correctamente al clúster.
+
+---
+
+### **5. Verificar los Pods** 🧐
+Desde el nodo master, puedes verificar el estado de los pods ejecutando:
+
+```bash
+kubectl get pods --all-namespaces
+```
+
+Este comando te mostrará todos los pods que están corriendo en tu clúster, en todos los namespaces. Así podrás verificar que los pods se están ejecutando correctamente.
+
+> [!NOTE]
+> Si quieres ver los pods de un namespace específico, puedes añadir el nombre del namespace después de `--namespace`, como por ejemplo:
+> ```bash
+> kubectl get pods --namespace kube-system
+> ```
 
 ---
 
