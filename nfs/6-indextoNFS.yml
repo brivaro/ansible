@@ -4,5 +4,5 @@
   tasks:
     - name: Copiar
       copy:
-        src: ~/ansible/nfs/web/index.php  # Ruta en el nodo Ansible
-        dest: /var/web/index.php 
+        src: ~/ansible/nfs/web/index.html  # Ruta en el nodo Ansible
+        dest: /var/web/index.html 
