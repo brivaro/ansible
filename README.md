@@ -1,8 +1,8 @@
-<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=BrianValiente.BrianValiente" />
-
 <div align="center"><a name="readme-top"></a>
   
   <img height="200" alt="Kubernetes logo" src="https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png">
+
+<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=BrianValiente.BrianValiente" />
 
 # **Clúster Kubernetes en AlmaLinux 9** 🚀
 
